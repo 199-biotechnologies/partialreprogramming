@@ -23,6 +23,7 @@
   --color-cream-mid: var(--cream-mid);
   --color-terracotta: var(--terracotta);
   --color-terracotta-light: var(--terracotta-light);
+  --color-terracotta-dark: var(--terracotta-dark);
   --color-charcoal: var(--charcoal);
   --color-text-secondary: var(--text-secondary);
   --color-muted: var(--muted);
@@ -37,7 +38,8 @@
 /* ------------------------------------------------------------------ */
 
 html {
-  scroll-behavior: smooth;
+  /* scroll-behavior intentionally omitted — Lenis handles smooth scrolling;
+     native smooth-scroll conflicts with GSAP ScrollTrigger pinning */
 }
 
 body {
