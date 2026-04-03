@@ -16,115 +16,140 @@ export function ActTwo() {
     if (!sectionRef.current) return;
 
     const ctx = gsap.context(() => {
-      const pinDuration = 1800;
+      const mm = gsap.matchMedia();
 
-      // Pin the section
-      ScrollTrigger.create({
-        trigger: sectionRef.current,
-        start: "top top",
-        end: `+=${pinDuration}`,
-        pin: true,
-        pinSpacing: true,
-      });
+      mm.add("(min-width: 768px)", () => {
+        const pinDuration = 1800;
 
-      // Master timeline for sequenced reveals
-      const tl = gsap.timeline({
-        scrollTrigger: {
+        // Pin the section
+        ScrollTrigger.create({
           trigger: sectionRef.current,
           start: "top top",
           end: `+=${pinDuration}`,
-          scrub: 1,
-        },
-      });
+          pin: true,
+          pinSpacing: true,
+        });
 
-      // Label entrance
-      const label = sectionRef.current!.querySelector(".act-label");
-      if (label) {
-        tl.fromTo(label, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.1 }, 0);
-      }
-
-      // Headline entrance
-      const headline = sectionRef.current!.querySelector(".act-headline");
-      if (headline) {
-        tl.fromTo(
-          headline,
-          { opacity: 0, y: 40 },
-          { opacity: 1, y: 0, duration: 0.15 },
-          0.05
-        );
-      }
-
-      // "still exists" text glow pulse
-      if (stillExistsRef.current) {
-        tl.fromTo(
-          stillExistsRef.current,
-          { textShadow: "0 0 0px transparent" },
-          {
-            textShadow:
-              "0 0 30px rgba(191,111,74,0.4), 0 0 60px rgba(191,111,74,0.2)",
-            duration: 0.2,
+        // Master timeline for sequenced reveals
+        const tl = gsap.timeline({
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: "top top",
+            end: `+=${pinDuration}`,
+            scrub: 1,
           },
-          0.15
-        );
-      }
+        });
 
-      // Body paragraphs
-      const paras = sectionRef.current!.querySelectorAll(".reveal-para");
-      paras.forEach((p, i) => {
-        tl.fromTo(
-          p,
-          { opacity: 0, y: 30 },
-          { opacity: 1, y: 0, duration: 0.12 },
-          0.2 + i * 0.12
-        );
+        // Label entrance
+        const label = sectionRef.current!.querySelector(".act-label");
+        if (label) {
+          tl.fromTo(label, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.1 }, 0);
+        }
+
+        // Headline entrance
+        const headline = sectionRef.current!.querySelector(".act-headline");
+        if (headline) {
+          tl.fromTo(
+            headline,
+            { opacity: 0, y: 40 },
+            { opacity: 1, y: 0, duration: 0.15 },
+            0.05
+          );
+        }
+
+        // "still exists" text glow pulse
+        if (stillExistsRef.current) {
+          tl.fromTo(
+            stillExistsRef.current,
+            { textShadow: "0 0 0px transparent" },
+            {
+              textShadow:
+                "0 0 30px rgba(191,111,74,0.4), 0 0 60px rgba(191,111,74,0.2)",
+              duration: 0.2,
+            },
+            0.15
+          );
+        }
+
+        // Body paragraphs
+        const paras = sectionRef.current!.querySelectorAll(".reveal-para");
+        paras.forEach((p, i) => {
+          tl.fromTo(
+            p,
+            { opacity: 0, y: 30 },
+            { opacity: 1, y: 0, duration: 0.12 },
+            0.2 + i * 0.12
+          );
+        });
+
+        // Warm radial glow intensifies
+        if (glowRef.current) {
+          tl.fromTo(
+            glowRef.current,
+            { opacity: 0, scale: 0.6 },
+            { opacity: 1, scale: 1.2, duration: 0.6 },
+            0.1
+          );
+        }
+
+        // Image transition: dim -> clear
+        if (dimImageRef.current && clearImageRef.current) {
+          tl.fromTo(
+            dimImageRef.current,
+            { opacity: 0.8 },
+            { opacity: 0, duration: 0.3 },
+            0.3
+          );
+          tl.fromTo(
+            clearImageRef.current,
+            { opacity: 0 },
+            { opacity: 1, duration: 0.3 },
+            0.35
+          );
+        }
+
+        // DNA reveal with scale
+        if (revealRef.current) {
+          tl.fromTo(
+            revealRef.current,
+            { opacity: 0, scale: 0.9 },
+            { opacity: 1, scale: 1, duration: 0.2 },
+            0.15
+          );
+        }
+
+        // Key line — large, emotional entrance
+        const keyLine = sectionRef.current!.querySelector(".key-line");
+        if (keyLine) {
+          tl.fromTo(
+            keyLine,
+            { opacity: 0, y: 50 },
+            { opacity: 1, y: 0, duration: 0.15 },
+            0.55
+          );
+        }
       });
 
-      // Warm radial glow intensifies
-      if (glowRef.current) {
-        tl.fromTo(
-          glowRef.current,
-          { opacity: 0, scale: 0.6 },
-          { opacity: 1, scale: 1.2, duration: 0.6 },
-          0.1
-        );
-      }
+      mm.add("(max-width: 767px)", () => {
+        // Mobile: no pinning, simple scroll-triggered reveals
+        const elements = sectionRef.current!.querySelectorAll(".act-label, .act-headline, .reveal-para, .key-line");
+        elements.forEach((el, i) => {
+          gsap.from(el, {
+            y: 30, opacity: 0, duration: 0.8, delay: i * 0.1,
+            ease: "power3.out",
+            scrollTrigger: { trigger: el, start: "top 85%", toggleActions: "play none none none" },
+          });
+        });
 
-      // Image transition: dim -> clear
-      if (dimImageRef.current && clearImageRef.current) {
-        tl.fromTo(
-          dimImageRef.current,
-          { opacity: 0.8 },
-          { opacity: 0, duration: 0.3 },
-          0.3
-        );
-        tl.fromTo(
-          clearImageRef.current,
-          { opacity: 0 },
-          { opacity: 1, duration: 0.3 },
-          0.35
-        );
-      }
-
-      // DNA reveal with scale
-      if (revealRef.current) {
-        tl.fromTo(
-          revealRef.current,
-          { opacity: 0, scale: 0.9 },
-          { opacity: 1, scale: 1, duration: 0.2 },
-          0.15
-        );
-      }
-
-      // Key line — large, emotional entrance
-      const keyLine = sectionRef.current!.querySelector(".key-line");
-      if (keyLine) {
-        tl.fromTo(
-          keyLine,
-          { opacity: 0, y: 50 },
-          { opacity: 1, y: 0, duration: 0.15 },
-          0.55
-        );
-      }
+        // DNA reveal
+        if (revealRef.current) {
+          gsap.from(revealRef.current, {
+            opacity: 0, scale: 0.95, duration: 0.8,
+            ease: "power3.out",
+            scrollTrigger: { trigger: revealRef.current, start: "top 85%", toggleActions: "play none none none" },
+          });
+        }
+      });
     }, sectionRef);
 
     return () => ctx.revert();
@@ -136,7 +161,7 @@ export function ActTwo() {
       className="relative min-h-[100dvh] overflow-hidden bg-[var(--cream)]"
     >
       <div className="flex min-h-[100dvh] items-center px-6 md:px-10">
-        <div className="mx-auto grid w-full max-w-[1400px] gap-12 md:grid-cols-[1fr_1fr] md:items-center md:gap-20">
+        <div className="mx-auto grid w-full max-w-[1400px] gap-8 md:grid-cols-[1fr_1fr] md:items-center md:gap-20">
           {/* Left: Image metaphor + DNA illustration */}
           <div className="relative order-2 flex items-center justify-center md:order-1">
             {/* Warm radial glow */}

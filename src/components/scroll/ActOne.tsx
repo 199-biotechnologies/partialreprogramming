@@ -16,87 +16,100 @@ export function ActOne() {
     const steps = textPanelRef.current.querySelectorAll(".step-text");
 
     const ctx = gsap.context(() => {
-      const pinDuration = steps.length * 700;
+      const mm = gsap.matchMedia();
 
-      // Pin the section
-      ScrollTrigger.create({
-        trigger: sectionRef.current,
-        start: "top top",
-        end: `+=${pinDuration}`,
-        pin: true,
-        pinSpacing: true,
-      });
+      mm.add("(min-width: 768px)", () => {
+        const pinDuration = steps.length * 700;
 
-      // Background color transition: cream -> cream-dark
-      if (bgRef.current) {
-        gsap.fromTo(
-          bgRef.current,
-          { backgroundColor: "var(--cream)" },
-          {
-            backgroundColor: "var(--cream-dark)",
+        // Pin the section
+        ScrollTrigger.create({
+          trigger: sectionRef.current,
+          start: "top top",
+          end: `+=${pinDuration}`,
+          pin: true,
+          pinSpacing: true,
+        });
+
+        // Background color transition: cream -> cream-dark
+        if (bgRef.current) {
+          gsap.fromTo(
+            bgRef.current,
+            { backgroundColor: "var(--cream)" },
+            {
+              backgroundColor: "var(--cream-dark)",
+              ease: "none",
+              scrollTrigger: {
+                trigger: sectionRef.current,
+                start: "top top",
+                end: `+=${pinDuration}`,
+                scrub: 1,
+              },
+            }
+          );
+        }
+
+        // Biological age counter — ticks up as you scroll through
+        if (ageCounterRef.current) {
+          const counter = { val: 20 };
+          gsap.to(counter, {
+            val: 80,
             ease: "none",
             scrollTrigger: {
               trigger: sectionRef.current,
               start: "top top",
               end: `+=${pinDuration}`,
               scrub: 1,
+              onUpdate: () => {
+                if (ageCounterRef.current) {
+                  ageCounterRef.current.textContent = Math.round(counter.val).toString();
+                }
+              },
             },
-          }
-        );
-      }
+          });
+        }
 
-      // Biological age counter — ticks up as you scroll through
-      if (ageCounterRef.current) {
-        const counter = { val: 20 };
-        gsap.to(counter, {
-          val: 80,
-          ease: "none",
+        // Text crossfade: pure opacity transitions, no translate
+        const tl = gsap.timeline({
           scrollTrigger: {
             trigger: sectionRef.current,
             start: "top top",
             end: `+=${pinDuration}`,
             scrub: 1,
-            onUpdate: () => {
-              if (ageCounterRef.current) {
-                ageCounterRef.current.textContent = Math.round(counter.val).toString();
-              }
-            },
           },
         });
-      }
 
-      // Text crossfade: pure opacity transitions, no translate
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: "top top",
-          end: `+=${pinDuration}`,
-          scrub: 1,
-        },
+        steps.forEach((step, i) => {
+          if (i === 0) {
+            tl.to(step, { opacity: 0, duration: 0.3 }, i * 1);
+          } else if (i < steps.length - 1) {
+            tl.fromTo(
+              step,
+              { opacity: 0 },
+              { opacity: 1, duration: 0.3 },
+              (i - 1) * 1 + 0.3
+            );
+            tl.to(step, { opacity: 0, duration: 0.3 }, i * 1);
+          } else {
+            tl.fromTo(
+              step,
+              { opacity: 0 },
+              { opacity: 1, duration: 0.3 },
+              (i - 1) * 1 + 0.3
+            );
+          }
+        });
       });
 
-      steps.forEach((step, i) => {
-        if (i === 0) {
-          // First step is visible, then fades out
-          tl.to(step, { opacity: 0, duration: 0.3 }, i * 1);
-        } else if (i < steps.length - 1) {
-          // Middle steps fade in then fade out
-          tl.fromTo(
-            step,
-            { opacity: 0 },
-            { opacity: 1, duration: 0.3 },
-            (i - 1) * 1 + 0.3
-          );
-          tl.to(step, { opacity: 0, duration: 0.3 }, i * 1);
-        } else {
-          // Last step fades in and stays
-          tl.fromTo(
-            step,
-            { opacity: 0 },
-            { opacity: 1, duration: 0.3 },
-            (i - 1) * 1 + 0.3
-          );
-        }
+      mm.add("(max-width: 767px)", () => {
+        // Mobile: no pinning, simple scroll-triggered reveals
+        const elements = sectionRef.current!.querySelectorAll(".step-text, [class*='reveal']");
+        elements.forEach((el, i) => {
+          gsap.from(el, {
+            y: 30, opacity: 0, duration: 0.8, delay: i * 0.1,
+            ease: "power3.out",
+            scrollTrigger: { trigger: el, start: "top 85%", toggleActions: "play none none none" },
+          });
+        });
       });
     }, sectionRef);
 
@@ -112,7 +125,7 @@ export function ActOne() {
       <div ref={bgRef} className="absolute inset-0 bg-[var(--cream)]" />
 
       <div className="relative z-10 flex min-h-[100dvh] items-center px-6 md:px-10">
-        <div className="mx-auto grid w-full max-w-[1400px] gap-12 md:grid-cols-[1.1fr_0.9fr] md:gap-20">
+        <div className="mx-auto grid w-full max-w-[1400px] gap-8 md:grid-cols-[1.1fr_0.9fr] md:gap-20">
           {/* Pinned text panel */}
           <div ref={textPanelRef} className="relative">
             <span className="mb-6 block font-[family-name:var(--font-jetbrains)] text-[11px] tracking-[0.2em] text-[var(--terracotta)] uppercase">
@@ -120,9 +133,9 @@ export function ActOne() {
             </span>
 
             {/* Stacked text steps — only one visible at a time */}
-            <div className="relative min-h-[320px]">
+            <div className="md:relative md:min-h-[320px]">
               {/* Step 1: headline */}
-              <div className="step-text absolute inset-0">
+              <div className="step-text md:absolute md:inset-0">
                 <h2 className="font-[family-name:var(--font-playfair)] text-4xl leading-[1.1] tracking-tight text-[var(--charcoal)] md:text-5xl lg:text-6xl">
                   This is <em className="text-[var(--terracotta)]">aging.</em>
                 </h2>
@@ -135,7 +148,7 @@ export function ActOne() {
               </div>
 
               {/* Step 2: methylation */}
-              <div className="step-text absolute inset-0 opacity-0">
+              <div className="step-text mt-8 md:mt-0 md:absolute md:inset-0 opacity-0 md:opacity-0">
                 <p className="max-w-[42ch] text-lg leading-relaxed text-[var(--text-secondary)] md:text-xl">
                   These marks &mdash; called{" "}
                   <strong className="text-[var(--charcoal)]">DNA methylation</strong>{" "}
@@ -148,7 +161,7 @@ export function ActOne() {
               </div>
 
               {/* Step 3: epigenetic clock */}
-              <div className="step-text absolute inset-0 opacity-0">
+              <div className="step-text mt-8 md:mt-0 md:absolute md:inset-0 opacity-0 md:opacity-0">
                 <p className="max-w-[42ch] text-lg leading-relaxed text-[var(--text-secondary)] md:text-xl">
                   Scientists can now measure this accumulation precisely.
                   It&apos;s called the{" "}
@@ -162,7 +175,7 @@ export function ActOne() {
               </div>
 
               {/* Step 4: the pull-quote */}
-              <div className="step-text absolute inset-0 flex items-center opacity-0">
+              <div className="step-text mt-8 md:mt-0 md:absolute md:inset-0 flex items-center opacity-0 md:opacity-0">
                 <div>
                   <blockquote className="max-w-[50ch] font-[family-name:var(--font-playfair)] text-3xl leading-snug text-[var(--charcoal)] italic md:text-4xl lg:text-5xl">
                     &ldquo;Aging is not the accumulation of damage
@@ -187,7 +200,7 @@ export function ActOne() {
               <div className="mt-1 flex items-baseline justify-center gap-1">
                 <span
                   ref={ageCounterRef}
-                  className="font-[family-name:var(--font-jetbrains)] text-6xl font-bold tabular-nums text-[var(--terracotta)] md:text-7xl"
+                  className="font-[family-name:var(--font-jetbrains)] text-5xl font-bold tabular-nums text-[var(--terracotta)] md:text-6xl lg:text-7xl"
                 >
                   20
                 </span>

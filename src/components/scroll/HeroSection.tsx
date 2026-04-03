@@ -185,7 +185,7 @@ export function HeroSection() {
         <div className="mx-auto max-w-[1400px]">
           {/* Title block */}
           <div ref={titleRef}>
-            <h1 className="font-[family-name:var(--font-playfair)] text-6xl leading-[1.05] tracking-tighter text-[var(--charcoal)] md:text-8xl lg:text-9xl">
+            <h1 className="font-[family-name:var(--font-playfair)] text-4xl leading-[1.05] tracking-tighter text-[var(--charcoal)] md:text-6xl lg:text-8xl xl:text-9xl">
               <span ref={titleLine1Ref} className="block">
                 Your body is
               </span>

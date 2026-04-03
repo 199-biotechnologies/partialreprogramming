@@ -45,7 +45,7 @@ export function Footer() {
                 href="https://en.wikipedia.org/wiki/Cellular_reprogramming"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="transition-colors duration-200 hover:text-[var(--terracotta)]"
+                className="py-2 transition-colors duration-200 hover:text-[var(--terracotta)]"
               >
                 Wikipedia
               </a>
@@ -53,7 +53,7 @@ export function Footer() {
                 href="https://www.nature.com/subjects/cellular-reprogramming"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="transition-colors duration-200 hover:text-[var(--terracotta)]"
+                className="py-2 transition-colors duration-200 hover:text-[var(--terracotta)]"
               >
                 Nature
               </a>
@@ -61,7 +61,7 @@ export function Footer() {
                 href="https://pubmed.ncbi.nlm.nih.gov/?term=partial+reprogramming"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="transition-colors duration-200 hover:text-[var(--terracotta)]"
+                className="py-2 transition-colors duration-200 hover:text-[var(--terracotta)]"
               >
                 PubMed
               </a>

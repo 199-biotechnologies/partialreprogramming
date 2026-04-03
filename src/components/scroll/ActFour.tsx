@@ -171,7 +171,7 @@ export function ActFour() {
       className="relative bg-[var(--cream)] px-6 py-24 md:px-10 md:py-32"
     >
       {/* Horizontal progress bar */}
-      <div className="fixed left-0 top-0 z-50 h-[2px] w-full">
+      <div className="sticky left-0 top-0 z-50 h-[2px] w-full">
         <div
           ref={progressRef}
           className="h-full origin-left bg-[var(--terracotta)]"
@@ -197,7 +197,7 @@ export function ActFour() {
         {/* Timeline */}
         <div className="relative">
           {/* Vertical center line */}
-          <div className="absolute left-6 top-0 bottom-0 w-px bg-[var(--muted-light)] md:left-1/2 md:-translate-x-1/2">
+          <div className="absolute left-4 top-0 bottom-0 w-px bg-[var(--muted-light)] md:left-1/2 md:-translate-x-1/2">
             <div className="timeline-line-fill absolute inset-0 w-full bg-[var(--terracotta)] opacity-60" />
           </div>
 
@@ -205,7 +205,7 @@ export function ActFour() {
             {milestones.map((m, i) => (
               <div
                 key={m.year}
-                className={`timeline-item relative pl-16 md:w-[48%] md:pl-0 ${
+                className={`timeline-item relative pl-12 md:w-[48%] md:pl-0 ${
                   i % 2 === 0
                     ? "md:pr-20 md:text-right"
                     : "md:ml-auto md:pl-20"
@@ -213,7 +213,7 @@ export function ActFour() {
               >
                 {/* Connecting dot on the line */}
                 <div
-                  className={`absolute top-4 left-4 h-4 w-4 rounded-full border-2 md:left-auto ${
+                  className={`absolute top-4 left-2 h-4 w-4 rounded-full border-2 md:left-auto ${
                     m.highlight
                       ? "border-[var(--terracotta)] bg-[var(--terracotta)]"
                       : "border-[var(--terracotta)] bg-[var(--cream)]"
@@ -242,7 +242,7 @@ export function ActFour() {
                   }`}
                 >
                   {/* Year — BIG */}
-                  <span className="block font-[family-name:var(--font-jetbrains)] text-5xl font-bold tabular-nums text-[var(--terracotta)] md:text-6xl lg:text-7xl">
+                  <span className="block font-[family-name:var(--font-jetbrains)] text-4xl font-bold tabular-nums text-[var(--terracotta)] md:text-5xl lg:text-6xl xl:text-7xl">
                     {m.year}
                   </span>
 

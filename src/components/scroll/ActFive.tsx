@@ -125,19 +125,23 @@ export function ActFive() {
         );
       }
 
-      // Floating particles — gentle drift
-      const particleEls = sectionRef.current!.querySelectorAll(".particle");
-      particleEls.forEach((p) => {
-        const el = p as HTMLElement;
-        gsap.to(el, {
-          y: -30 - Math.random() * 40,
-          x: -10 + Math.random() * 20,
-          opacity: 0.15 + Math.random() * 0.2,
-          duration: parseFloat(el.dataset.duration || "5"),
-          delay: parseFloat(el.dataset.delay || "0"),
-          ease: "sine.inOut",
-          repeat: -1,
-          yoyo: true,
+      const mm = gsap.matchMedia();
+
+      // Floating particles — desktop only (disabled on mobile for performance)
+      mm.add("(min-width: 768px)", () => {
+        const particleEls = sectionRef.current!.querySelectorAll(".particle");
+        particleEls.forEach((p) => {
+          const el = p as HTMLElement;
+          gsap.to(el, {
+            y: -30 - Math.random() * 40,
+            x: -10 + Math.random() * 20,
+            opacity: 0.15 + Math.random() * 0.2,
+            duration: parseFloat(el.dataset.duration || "5"),
+            delay: parseFloat(el.dataset.delay || "0"),
+            ease: "sine.inOut",
+            repeat: -1,
+            yoyo: true,
+          });
         });
       });
 
@@ -169,11 +173,11 @@ export function ActFive() {
       ref={sectionRef}
       className="relative overflow-hidden bg-[var(--charcoal)] px-6 py-24 md:px-10 md:py-32 lg:py-40"
     >
-      {/* Floating particles — cellular activity */}
+      {/* Floating particles — cellular activity (hide extras on mobile) */}
       {particles.map((p) => (
         <div
           key={p.id}
-          className="particle pointer-events-none absolute rounded-full bg-[var(--terracotta)] opacity-[0.06]"
+          className={`particle pointer-events-none absolute rounded-full bg-[var(--terracotta)] opacity-[0.06] ${p.id >= 10 ? "hidden md:block" : ""}`}
           style={{
             left: p.left,
             top: p.top,
@@ -199,7 +203,7 @@ export function ActFive() {
           Act V &mdash; The Threshold
         </span>
 
-        <h2 className="closing-headline max-w-[18ch] font-[family-name:var(--font-playfair)] text-5xl leading-[1.05] tracking-tight text-[var(--cream)] md:text-7xl lg:text-8xl">
+        <h2 className="closing-headline max-w-[18ch] font-[family-name:var(--font-playfair)] text-3xl sm:text-4xl leading-[1.05] tracking-tight text-[var(--cream)] md:text-5xl lg:text-7xl xl:text-8xl">
           The first patients are{" "}
           <em className="text-[var(--terracotta)]">being treated now.</em>
         </h2>
@@ -252,12 +256,12 @@ export function ActFive() {
 
         {/* Closing line — parallax float */}
         <div ref={closingRef} className="mt-20 md:mt-28">
-          <p className="mx-auto max-w-[50ch] text-center font-[family-name:var(--font-playfair)] text-3xl leading-snug text-[var(--cream)] md:text-4xl lg:text-5xl">
+          <p className="mx-auto max-w-[50ch] text-center font-[family-name:var(--font-playfair)] text-xl sm:text-2xl leading-snug text-[var(--cream)] md:text-3xl lg:text-4xl xl:text-5xl">
             The question is no longer{" "}
             <em className="text-[var(--cream)] opacity-40">if</em> aging can
             be reversed.
           </p>
-          <p className="mx-auto mt-4 max-w-[50ch] text-center font-[family-name:var(--font-playfair)] text-3xl leading-snug md:text-4xl lg:text-5xl">
+          <p className="mx-auto mt-4 max-w-[50ch] text-center font-[family-name:var(--font-playfair)] text-xl sm:text-2xl leading-snug md:text-3xl lg:text-4xl xl:text-5xl">
             It&apos;s{" "}
             <em className="text-[var(--terracotta)]">when.</em>
           </p>

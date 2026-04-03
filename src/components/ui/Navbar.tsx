@@ -115,7 +115,7 @@ export function Navbar() {
           {/* Mobile hamburger */}
           <button
             onClick={() => setMenuOpen(!menuOpen)}
-            className="relative z-50 flex h-10 w-10 flex-col items-center justify-center gap-[5px] md:hidden"
+            className="relative z-50 flex h-11 w-11 flex-col items-center justify-center gap-[5px] md:hidden"
             aria-label={menuOpen ? "Close menu" : "Open menu"}
             aria-expanded={menuOpen}
           >
@@ -167,7 +167,7 @@ export function Navbar() {
               key={link.href}
               href={link.href}
               onClick={() => setMenuOpen(false)}
-              className="relative font-[family-name:var(--font-playfair)] text-3xl tracking-tight text-[var(--charcoal)] transition-colors hover:text-[var(--terracotta)]"
+              className="relative py-3 font-[family-name:var(--font-playfair)] text-3xl tracking-tight text-[var(--charcoal)] transition-colors hover:text-[var(--terracotta)]"
               style={{
                 opacity: menuOpen ? 1 : 0,
                 transform: menuOpen ? "translateY(0)" : "translateY(12px)",

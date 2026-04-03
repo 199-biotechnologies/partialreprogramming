@@ -18,87 +18,103 @@ export function ActThree() {
     if (!sectionRef.current) return;
 
     const ctx = gsap.context(() => {
-      const pinDuration = 2200;
+      const mm = gsap.matchMedia();
 
-      ScrollTrigger.create({
-        trigger: sectionRef.current,
-        start: "top top",
-        end: `+=${pinDuration}`,
-        pin: true,
-        pinSpacing: true,
-      });
+      mm.add("(min-width: 768px)", () => {
+        const pinDuration = 2200;
 
-      // Master timeline
-      const tl = gsap.timeline({
-        scrollTrigger: {
+        ScrollTrigger.create({
           trigger: sectionRef.current,
           start: "top top",
           end: `+=${pinDuration}`,
-          scrub: 1,
-        },
-      });
+          pin: true,
+          pinSpacing: true,
+        });
 
-      // Label + headline
-      const label = sectionRef.current!.querySelector(".act-label");
-      const headline = sectionRef.current!.querySelector(".act-headline");
-      if (label) tl.fromTo(label, { opacity: 0, y: 15 }, { opacity: 1, y: 0, duration: 0.06 }, 0);
-      if (headline) tl.fromTo(headline, { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.08 }, 0.02);
-
-      // Yamanaka intro text
-      const introText = sectionRef.current!.querySelector(".intro-text");
-      if (introText) {
-        tl.fromTo(introText, { opacity: 0, y: 25 }, { opacity: 1, y: 0, duration: 0.08 }, 0.08);
-      }
-
-      // Factor badges — staggered pop-in with overshoot
-      const badges = sectionRef.current!.querySelectorAll(".factor-badge");
-      badges.forEach((badge, i) => {
-        tl.fromTo(
-          badge,
-          { scale: 0, opacity: 0, rotation: -5 },
-          {
-            scale: 1,
-            opacity: 1,
-            rotation: 0,
-            duration: 0.06,
-            ease: "back.out(2.5)",
+        // Master timeline
+        const tl = gsap.timeline({
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: "top top",
+            end: `+=${pinDuration}`,
+            scrub: 1,
           },
-          0.16 + i * 0.04
-        );
+        });
+
+        // Label + headline
+        const label = sectionRef.current!.querySelector(".act-label");
+        const headline = sectionRef.current!.querySelector(".act-headline");
+        if (label) tl.fromTo(label, { opacity: 0, y: 15 }, { opacity: 1, y: 0, duration: 0.06 }, 0);
+        if (headline) tl.fromTo(headline, { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.08 }, 0.02);
+
+        // Yamanaka intro text
+        const introText = sectionRef.current!.querySelector(".intro-text");
+        if (introText) {
+          tl.fromTo(introText, { opacity: 0, y: 25 }, { opacity: 1, y: 0, duration: 0.08 }, 0.08);
+        }
+
+        // Factor badges — staggered pop-in with overshoot
+        const badges = sectionRef.current!.querySelectorAll(".factor-badge");
+        badges.forEach((badge, i) => {
+          tl.fromTo(
+            badge,
+            { scale: 0, opacity: 0, rotation: -5 },
+            {
+              scale: 1,
+              opacity: 1,
+              rotation: 0,
+              duration: 0.06,
+              ease: "back.out(2.5)",
+            },
+            0.16 + i * 0.04
+          );
+        });
+
+        // Continuous vs pulsed explanation
+        const stepTexts = sectionRef.current!.querySelectorAll(".mech-step");
+        stepTexts.forEach((st, i) => {
+          tl.fromTo(st, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.08 }, 0.36 + i * 0.1);
+        });
+
+        // Pulse timeline visual
+        const pulseViz = sectionRef.current!.querySelector(".pulse-viz");
+        if (pulseViz) {
+          tl.fromTo(pulseViz, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.08 }, 0.56);
+        }
+
+        // Reset vs Reboot cards
+        const compCards = sectionRef.current!.querySelectorAll(".comp-card");
+        compCards.forEach((card, i) => {
+          tl.fromTo(
+            card,
+            { opacity: 0, y: 30, scale: 0.95 },
+            { opacity: 1, y: 0, scale: 1, duration: 0.08 },
+            0.66 + i * 0.06
+          );
+        });
+
+        // Before/after split
+        const splitPanels = sectionRef.current!.querySelectorAll(".split-panel");
+        splitPanels.forEach((panel, i) => {
+          tl.fromTo(
+            panel,
+            { opacity: 0, x: i === 0 ? -30 : 30 },
+            { opacity: 1, x: 0, duration: 0.08 },
+            0.8 + i * 0.04
+          );
+        });
       });
 
-      // Continuous vs pulsed explanation
-      const stepTexts = sectionRef.current!.querySelectorAll(".mech-step");
-      stepTexts.forEach((st, i) => {
-        tl.fromTo(st, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.08 }, 0.36 + i * 0.1);
-      });
-
-      // Pulse timeline visual
-      const pulseViz = sectionRef.current!.querySelector(".pulse-viz");
-      if (pulseViz) {
-        tl.fromTo(pulseViz, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.08 }, 0.56);
-      }
-
-      // Reset vs Reboot cards
-      const compCards = sectionRef.current!.querySelectorAll(".comp-card");
-      compCards.forEach((card, i) => {
-        tl.fromTo(
-          card,
-          { opacity: 0, y: 30, scale: 0.95 },
-          { opacity: 1, y: 0, scale: 1, duration: 0.08 },
-          0.66 + i * 0.06
-        );
-      });
-
-      // Before/after split
-      const splitPanels = sectionRef.current!.querySelectorAll(".split-panel");
-      splitPanels.forEach((panel, i) => {
-        tl.fromTo(
-          panel,
-          { opacity: 0, x: i === 0 ? -30 : 30 },
-          { opacity: 1, x: 0, duration: 0.08 },
-          0.8 + i * 0.04
-        );
+      mm.add("(max-width: 767px)", () => {
+        // Mobile: no pinning, simple scroll-triggered reveals
+        const elements = sectionRef.current!.querySelectorAll(".act-label, .act-headline, .intro-text, .factor-badge, .mech-step, .pulse-viz, .comp-card, .split-panel");
+        elements.forEach((el, i) => {
+          gsap.from(el, {
+            y: 30, opacity: 0, duration: 0.8, delay: i * 0.1,
+            ease: "power3.out",
+            scrollTrigger: { trigger: el, start: "top 85%", toggleActions: "play none none none" },
+          });
+        });
       });
     }, sectionRef);
 
@@ -134,7 +150,7 @@ export function ActThree() {
                 {factors.map((factor) => (
                   <div
                     key={factor.letter}
-                    className="factor-badge flex items-center gap-3 rounded-xl border border-[var(--muted-light)] bg-[var(--cream)] px-5 py-4 opacity-0 shadow-sm"
+                    className="factor-badge flex items-center gap-3 rounded-xl border border-[var(--muted-light)] bg-[var(--cream)] px-3 py-2.5 md:px-5 md:py-4 opacity-0 shadow-sm"
                   >
                     <span className="flex h-11 w-11 items-center justify-center rounded-full bg-[var(--terracotta)] font-[family-name:var(--font-jetbrains)] text-base font-bold text-[var(--cream)]">
                       {factor.letter}
@@ -172,7 +188,7 @@ export function ActThree() {
 
                 {/* Continuous — solid bar */}
                 <div className="flex items-center gap-3">
-                  <span className="w-24 shrink-0 text-right font-[family-name:var(--font-jetbrains)] text-xs text-[var(--muted)] line-through">
+                  <span className="w-16 md:w-24 shrink-0 text-right font-[family-name:var(--font-jetbrains)] text-[10px] md:text-xs text-[var(--muted)] line-through">
                     Continuous
                   </span>
                   <div className="relative h-4 flex-1 rounded-sm bg-[var(--terracotta)] opacity-20">
@@ -184,7 +200,7 @@ export function ActThree() {
 
                 {/* Pulsed — blocks with gaps */}
                 <div className="flex items-center gap-3">
-                  <span className="w-24 shrink-0 text-right font-[family-name:var(--font-jetbrains)] text-xs font-semibold text-[var(--terracotta)]">
+                  <span className="w-16 md:w-24 shrink-0 text-right font-[family-name:var(--font-jetbrains)] text-[10px] md:text-xs font-semibold text-[var(--terracotta)]">
                     Pulsed
                   </span>
                   <div className="flex flex-1 gap-1.5">
@@ -199,7 +215,7 @@ export function ActThree() {
                   </div>
                 </div>
 
-                <p className="ml-28 font-[family-name:var(--font-jetbrains)] text-[9px] text-[var(--terracotta)]">
+                <p className="ml-[4.5rem] md:ml-28 font-[family-name:var(--font-jetbrains)] text-[9px] text-[var(--terracotta)]">
                   Rejuvenation without identity loss
                 </p>
               </div>
