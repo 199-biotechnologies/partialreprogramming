@@ -25,7 +25,7 @@ const companies = [
     name: "NewLimit",
     tagline: "Co-founded by Brian Armstrong to crack epigenetic aging",
     mission: "Radically extending the human healthspan",
-    funding: "$130M+ raised",
+    funding: "$130M+ raised (Series B, $1.6B valuation)",
     focus: "Epigenetic reprogramming for liver disease",
   },
   {
@@ -62,6 +62,13 @@ const companies = [
     mission: "Developing gene therapies that reverse biological age, starting with dogs",
     funding: "$15M+ raised",
     focus: "Combinatorial gene therapy for age reversal",
+  },
+  {
+    name: "YouthBio Therapeutics",
+    tagline: "Gene therapy approaching FDA trials for Alzheimer's",
+    mission: "Developing gene therapies targeting aging-related neurodegeneration",
+    funding: "$10M+ raised",
+    focus: "AAV-delivered OSK for Alzheimer's (YB002)",
   },
   {
     name: "Conception Biosciences",
@@ -107,6 +114,13 @@ const clinicalTrials = [
     target: "Undisclosed",
     phase: "Pre-clinical",
     status: "Discovery",
+  },
+  {
+    trial: "YB-002",
+    company: "YouthBio",
+    target: "Alzheimer's disease",
+    phase: "Pre-clinical",
+    status: "FDA INTERACT complete",
   },
   {
     trial: "CDNF-201",

@@ -165,6 +165,33 @@ export function ActThree() {
                 ))}
               </div>
 
+              {/* Delivery methods */}
+              <div className="mech-step mt-10 max-w-[48ch] opacity-0">
+                <p className="font-[family-name:var(--font-jetbrains)] text-[10px] tracking-[0.15em] text-[var(--muted)] uppercase mb-3">
+                  Delivery Methods
+                </p>
+                <div className="space-y-3">
+                  <div className="flex items-start gap-3">
+                    <span className="mt-1 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[var(--terracotta)]/10 font-[family-name:var(--font-jetbrains)] text-[10px] font-bold text-[var(--terracotta)]">1</span>
+                    <p className="text-sm leading-relaxed text-[var(--text-secondary)]">
+                      <strong className="text-[var(--charcoal)]">Viral vectors (AAV)</strong> &mdash; inject genetic material directly. Used in the first human trial (ER-100).
+                    </p>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <span className="mt-1 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[var(--terracotta)]/10 font-[family-name:var(--font-jetbrains)] text-[10px] font-bold text-[var(--terracotta)]">2</span>
+                    <p className="text-sm leading-relaxed text-[var(--text-secondary)]">
+                      <strong className="text-[var(--charcoal)]">mRNA cocktails</strong> &mdash; temporary, no permanent genetic changes. Developed by Turn Bio.
+                    </p>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <span className="mt-1 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[var(--terracotta)]/10 font-[family-name:var(--font-jetbrains)] text-[10px] font-bold text-[var(--terracotta)]">3</span>
+                    <p className="text-sm leading-relaxed text-[var(--text-secondary)]">
+                      <strong className="text-[var(--charcoal)]">Chemical cocktails</strong> &mdash; small molecules, no genetic modification at all (Deng 2013, Yang 2023).
+                    </p>
+                  </div>
+                </div>
+              </div>
+
               {/* Explanation steps */}
               <p className="mech-step mt-10 max-w-[48ch] text-lg leading-relaxed text-[var(--text-secondary)] opacity-0 md:text-xl">
                 Applied <strong className="text-[var(--charcoal)]">continuously</strong>, these factors
@@ -252,6 +279,24 @@ export function ActThree() {
                     remembers <em>what</em> it is, but forgets <em>how old</em>.
                   </p>
                 </div>
+              </div>
+              {/* Safety note */}
+              <div className="mech-step mt-8 max-w-[48ch] rounded-xl border border-[var(--muted-light)] bg-[var(--cream)] p-5 opacity-0">
+                <p className="font-[family-name:var(--font-jetbrains)] text-[10px] tracking-[0.15em] text-[var(--terracotta)] uppercase mb-2">
+                  Safety
+                </p>
+                <p className="text-sm leading-relaxed text-[var(--text-secondary)]">
+                  The biggest concern? <strong className="text-[var(--charcoal)]">Cancer.</strong> The c-Myc
+                  factor is a known oncogene. That&apos;s why the first human trial
+                  (ER-100) uses only three factors &mdash; Oct4, Sox2, and Klf4
+                  &mdash; with c-Myc deliberately excluded.
+                </p>
+                <p className="mt-3 text-sm leading-relaxed text-[var(--text-secondary)]">
+                  Expression is controlled by{" "}
+                  <strong className="text-[var(--charcoal)]">doxycycline</strong>, an antibiotic
+                  that acts as an on/off switch. Stop the doxycycline, stop
+                  the reprogramming.
+                </p>
               </div>
             </div>
 

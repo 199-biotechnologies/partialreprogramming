@@ -160,7 +160,21 @@ export function ActOne() {
                 </p>
               </div>
 
-              {/* Step 3: epigenetic clock */}
+              {/* Step 3: Waddington landscape */}
+              <div className="step-text mt-8 md:mt-0 md:absolute md:inset-0 opacity-0 md:opacity-0">
+                <p className="max-w-[42ch] text-lg leading-relaxed text-[var(--text-secondary)] md:text-xl">
+                  Biologists visualize this through something called the{" "}
+                  <strong className="text-[var(--charcoal)]">Waddington landscape</strong>{" "}
+                  &mdash; imagine a ball rolling downhill into valleys. Each valley
+                  is a cell type: skin, muscle, neuron.
+                </p>
+                <p className="mt-4 max-w-[42ch] text-lg leading-relaxed text-[var(--text-secondary)] md:text-xl">
+                  As cells age, the valleys erode. The landscape flattens.
+                  Cells begin to <em>lose their identity</em>.
+                </p>
+              </div>
+
+              {/* Step 4: epigenetic clock */}
               <div className="step-text mt-8 md:mt-0 md:absolute md:inset-0 opacity-0 md:opacity-0">
                 <p className="max-w-[42ch] text-lg leading-relaxed text-[var(--text-secondary)] md:text-xl">
                   Scientists can now measure this accumulation precisely.
@@ -174,7 +188,7 @@ export function ActOne() {
                 </p>
               </div>
 
-              {/* Step 4: the pull-quote */}
+              {/* Step 5: the pull-quote */}
               <div className="step-text mt-8 md:mt-0 md:absolute md:inset-0 flex items-center opacity-0 md:opacity-0">
                 <div>
                   <blockquote className="max-w-[50ch] font-[family-name:var(--font-playfair)] text-3xl leading-snug text-[var(--charcoal)] italic md:text-4xl lg:text-5xl">
@@ -184,6 +198,11 @@ export function ActOne() {
                   </blockquote>
                   <p className="mt-6 font-[family-name:var(--font-jetbrains)] text-xs tracking-widest text-[var(--muted)] uppercase">
                     &mdash; David Sinclair, Harvard Medical School
+                  </p>
+                  <p className="mt-4 max-w-[50ch] text-sm leading-relaxed text-[var(--muted)]">
+                    In 2023, Sinclair&apos;s team published the Information Theory of
+                    Aging in <em>Nature Aging</em>, arguing that aging is primarily
+                    driven by epigenetic information loss &mdash; not DNA mutations.
                   </p>
                 </div>
               </div>

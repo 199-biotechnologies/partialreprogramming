@@ -21,11 +21,27 @@ const milestones = [
     highlight: false,
   },
   {
+    year: "2019",
+    title: "Human Cells Rejuvenated",
+    description:
+      "Sarkar et al. use mRNA-based OSKM delivery to reverse aging in human muscle stem cells, cartilage, and endothelial cells — no genetic modification needed.",
+    detail: "Sarkar et al., Nature Communications",
+    highlight: false,
+  },
+  {
     year: "2020",
     title: "Vision Restored",
     description:
-      "David Sinclair's lab at Harvard uses three of the four factors (OSK) to restore vision in aged mice by resetting the epigenetic clock in retinal cells.",
+      "David Sinclair's lab at Harvard uses three of the four factors (OSK) to restore vision in aged mice — restoring 90% of youthful gene expression and decreasing epigenetic age by 3 months — by resetting the epigenetic clock in retinal cells.",
     detail: "Lu et al., Nature",
+    highlight: false,
+  },
+  {
+    year: "2021",
+    title: "30-Year Age Reversal",
+    description:
+      "Gill et al. achieve a 30-year reduction in epigenetic age of human fibroblasts using lentiviral OSKM expression for 10-17 days, while preserving cell identity.",
+    detail: "Gill et al., eLife",
     highlight: false,
   },
   {

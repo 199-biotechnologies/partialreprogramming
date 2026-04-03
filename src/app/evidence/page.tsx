@@ -42,13 +42,13 @@ const papers = [
   {
     year: "2019",
     title:
-      "Transient Non-integrative Expression of Nuclear Reprogramming Factors Promotes Multifaceted Amelioration of Aging",
+      "Transient Reprogramming Reverses Aging in Human Cells via mRNA Delivery",
     authors: "Sarkar et al.",
     journal: "Nature Communications",
     doi: "https://doi.org/10.1038/s41467-020-15174-3",
     summary:
-      "Showed that transient reprogramming reverses multiple hallmarks of aging in human cells and mouse tissues without altering cell identity.",
-    organism: "Human cells + Mouse",
+      "First demonstration that mRNA-based delivery of reprogramming factors can reverse 5 of 9 hallmarks of aging in human cells without any genetic modification — opening the door to drug-like rejuvenation.",
+    organism: "Human cells",
   },
   {
     year: "2020",
@@ -59,6 +59,28 @@ const papers = [
     doi: "https://doi.org/10.1038/s41586-020-2975-4",
     summary:
       "Sinclair's landmark paper. Three Yamanaka factors (OSK, without c-Myc) restored vision in aged mice by resetting the epigenetic clock in retinal ganglion cells.",
+    organism: "Mouse",
+  },
+  {
+    year: "2021",
+    title:
+      "Multi-omic Rejuvenation of Human Cells by Maturation Phase Transient Reprogramming",
+    authors: "Gill et al.",
+    journal: "eLife",
+    doi: "https://doi.org/10.7554/eLife.71624",
+    summary:
+      "Achieved a stunning 30-year decrease in epigenetic age of human skin cells while fully preserving cell identity and function. The cells looked and behaved decades younger.",
+    organism: "Human cells",
+  },
+  {
+    year: "2022",
+    title:
+      "Multi-tissue DNA Methylation Remodeling at Mitotic-like Genes by Partial Reprogramming",
+    authors: "Browder et al.",
+    journal: "Science",
+    doi: "https://doi.org/10.1126/science.abg4993",
+    summary:
+      "Long-term cyclic partial reprogramming in mice reverses epigenetic age across multiple tissues — skin, kidney, blood — and reduces fibrosis without increasing cancer risk.",
     organism: "Mouse",
   },
   {
@@ -106,7 +128,7 @@ const papers = [
 ];
 
 const stats = [
-  { number: "10", label: "Landmark papers" },
+  { number: "13", label: "Landmark papers" },
   { number: "20", label: "Years of research" },
   { number: "2026", label: "First human trial" },
 ];
