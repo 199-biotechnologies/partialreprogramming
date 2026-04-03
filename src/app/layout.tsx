@@ -30,6 +30,7 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://partialreprogramming.vercel.app"),
   title: "Partial Reprogramming — The Science of Cellular Youth",
   description:
     "An interactive guide to partial reprogramming: how scientists are learning to reverse cellular aging without erasing cell identity.",

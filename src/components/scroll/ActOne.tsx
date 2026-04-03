@@ -140,19 +140,20 @@ export function ActOne() {
                   This is <em className="text-[var(--terracotta)]">aging.</em>
                 </h2>
                 <p className="mt-6 max-w-[42ch] text-lg leading-relaxed text-[var(--text-secondary)] md:text-xl">
-                  Every cell accumulates chemical marks on its DNA over a
-                  lifetime. Like scratches on a vinyl record, these{" "}
-                  <strong className="text-[var(--charcoal)]">epigenetic changes</strong> make
-                  the music skip.
+                  Every cell accumulates tiny chemical marks on its&nbsp;DNA
+                  over a lifetime. Like scratches on a vinyl record,
+                  these{" "}
+                  <strong className="text-[var(--charcoal)]">epigenetic&nbsp;changes</strong> make
+                  the music&nbsp;skip.
                 </p>
               </div>
 
               {/* Step 2: methylation */}
               <div className="step-text mt-8 md:mt-0 md:absolute md:inset-0 opacity-0 md:opacity-0">
                 <p className="max-w-[42ch] text-lg leading-relaxed text-[var(--text-secondary)] md:text-xl">
-                  These marks &mdash; called{" "}
-                  <strong className="text-[var(--charcoal)]">DNA methylation</strong>{" "}
-                  &mdash; accumulate at specific sites on your genome.
+                  These marks&nbsp;&mdash; called{" "}
+                  <strong className="text-[var(--charcoal)]">DNA&nbsp;methylation</strong>{" "}
+                  &mdash; build up at specific sites across your&nbsp;genome.
                 </p>
                 <p className="mt-4 max-w-[42ch] text-lg leading-relaxed text-[var(--text-secondary)] md:text-xl">
                   They change which genes are <em>active</em> and which
@@ -163,10 +164,10 @@ export function ActOne() {
               {/* Step 3: Waddington landscape */}
               <div className="step-text mt-8 md:mt-0 md:absolute md:inset-0 opacity-0 md:opacity-0">
                 <p className="max-w-[42ch] text-lg leading-relaxed text-[var(--text-secondary)] md:text-xl">
-                  Biologists visualize this through something called the{" "}
+                  Biologists picture this through the{" "}
                   <strong className="text-[var(--charcoal)]">Waddington landscape</strong>{" "}
-                  &mdash; imagine a ball rolling downhill into valleys. Each valley
-                  is a cell type: skin, muscle, neuron.
+                  &mdash; imagine a marble rolling downhill into valleys. Each valley
+                  is a cell type: skin, muscle,&nbsp;neuron.
                 </p>
                 <p className="mt-4 max-w-[42ch] text-lg leading-relaxed text-[var(--text-secondary)] md:text-xl">
                   As cells age, the valleys erode. The landscape flattens.
@@ -177,14 +178,14 @@ export function ActOne() {
               {/* Step 4: epigenetic clock */}
               <div className="step-text mt-8 md:mt-0 md:absolute md:inset-0 opacity-0 md:opacity-0">
                 <p className="max-w-[42ch] text-lg leading-relaxed text-[var(--text-secondary)] md:text-xl">
-                  Scientists can now measure this accumulation precisely.
+                  Scientists can now measure this wear precisely.
                   It&apos;s called the{" "}
-                  <strong className="text-[var(--charcoal)]">epigenetic clock</strong>
-                  &mdash;and it ticks in every cell of your body.
+                  <strong className="text-[var(--charcoal)]">epigenetic&nbsp;clock</strong>
+                  &mdash; and it ticks in every cell of your&nbsp;body.
                 </p>
                 <p className="mt-4 max-w-[42ch] text-lg leading-relaxed text-[var(--text-secondary)] md:text-xl">
-                  Tracking your <strong className="text-[var(--charcoal)]">biological age</strong> with
-                  remarkable accuracy.
+                  Tracking your <strong className="text-[var(--charcoal)]">biological&nbsp;age</strong> with
+                  remarkable&nbsp;accuracy.
                 </p>
               </div>
 

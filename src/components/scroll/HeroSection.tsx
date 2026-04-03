@@ -198,9 +198,9 @@ export function HeroSection() {
               ref={subtitleRef}
               className="mt-8 max-w-[48ch] text-lg leading-relaxed text-[var(--text-secondary)] opacity-0 md:text-xl lg:text-2xl"
             >
-              Every one of your <strong className="text-[var(--charcoal)]">37 trillion cells</strong> carries
-              the complete instructions for life. A melody written in DNA,
-              performed by the machinery of the cell.
+              Every one of your <strong className="text-[var(--charcoal)]">37&nbsp;trillion cells</strong> runs
+              the same exquisite program&nbsp;&mdash; a melody written in&nbsp;DNA,
+              performed fresh each day by the machinery of&nbsp;life.
             </p>
           </div>
 

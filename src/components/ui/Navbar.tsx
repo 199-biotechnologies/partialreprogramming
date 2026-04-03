@@ -95,17 +95,19 @@ export function Navbar() {
               <Link
                 key={link.href}
                 href={link.href}
-                className={`relative text-sm tracking-wide transition-colors duration-300 ${
+                className={`group relative text-sm tracking-wide transition-colors duration-300 ${
                   pathname === link.href
                     ? "text-[var(--charcoal)]"
                     : "text-[var(--text-secondary)] hover:text-[var(--charcoal)]"
                 }`}
               >
                 {link.label}
-                {/* Active underline */}
+                {/* Active underline + hover grow-from-center */}
                 <span
-                  className={`absolute -bottom-1 left-0 h-[1.5px] bg-[var(--terracotta)] transition-all duration-300 ease-out ${
-                    pathname === link.href ? "w-full" : "w-0"
+                  className={`absolute -bottom-1 left-1/2 h-[1.5px] bg-[var(--terracotta)] transition-all duration-300 ease-out ${
+                    pathname === link.href
+                      ? "w-full -translate-x-1/2"
+                      : "w-0 -translate-x-1/2 group-hover:w-full"
                   }`}
                 />
               </Link>

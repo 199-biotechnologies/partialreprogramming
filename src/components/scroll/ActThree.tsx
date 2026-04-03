@@ -5,10 +5,10 @@ import { gsap, ScrollTrigger } from "@/lib/gsap";
 import { DnaStrand } from "@/components/svg/DnaStrand";
 
 const factors = [
-  { letter: "O", name: "Oct4", desc: "Master regulator of pluripotency" },
-  { letter: "S", name: "Sox2", desc: "Stem cell maintenance" },
-  { letter: "K", name: "Klf4", desc: "Cell identity gatekeeper" },
-  { letter: "M", name: "c-Myc", desc: "Gene expression amplifier" },
+  { letter: "O", name: "Oct4", desc: "Activates the youth program" },
+  { letter: "S", name: "Sox2", desc: "Maintains stem cell state" },
+  { letter: "K", name: "Klf4", desc: "Guards cell identity" },
+  { letter: "M", name: "c-Myc", desc: "Amplifies gene activity" },
 ];
 
 export function ActThree() {
@@ -140,9 +140,9 @@ export function ActThree() {
             {/* Left column: text + badges + comparison */}
             <div>
               <p className="intro-text max-w-[48ch] text-lg leading-relaxed text-[var(--text-secondary)] opacity-0 md:text-xl">
-                In 2006, <strong className="text-[var(--charcoal)]">Shinya Yamanaka</strong> discovered
-                four proteins that can reset a cell&apos;s epigenetic state.
-                They&apos;re called the <strong className="text-[var(--charcoal)]">Yamanaka factors</strong>:
+                In 2006, <strong className="text-[var(--charcoal)]">Shinya&nbsp;Yamanaka</strong> discovered
+                four proteins that can wind back a cell&apos;s biological clock.
+                They&apos;re called the <strong className="text-[var(--charcoal)]">Yamanaka&nbsp;factors</strong>:
               </p>
 
               {/* OSKM factor badges */}
@@ -150,7 +150,7 @@ export function ActThree() {
                 {factors.map((factor) => (
                   <div
                     key={factor.letter}
-                    className="factor-badge flex items-center gap-3 rounded-xl border border-[var(--muted-light)] bg-[var(--cream)] px-3 py-2.5 md:px-5 md:py-4 opacity-0 shadow-sm"
+                    className="factor-badge flex items-center gap-3 rounded-xl border border-[var(--muted-light)] bg-[var(--cream)] px-3 py-2.5 md:px-5 md:py-4 opacity-0 shadow-sm transition-transform duration-200 hover:scale-[1.03]"
                   >
                     <span className="flex h-11 w-11 items-center justify-center rounded-full bg-[var(--terracotta)] font-[family-name:var(--font-jetbrains)] text-base font-bold text-[var(--cream)]">
                       {factor.letter}
@@ -195,16 +195,16 @@ export function ActThree() {
               {/* Explanation steps */}
               <p className="mech-step mt-10 max-w-[48ch] text-lg leading-relaxed text-[var(--text-secondary)] opacity-0 md:text-xl">
                 Applied <strong className="text-[var(--charcoal)]">continuously</strong>, these factors
-                turn an adult cell all the way back into a stem cell &mdash; a{" "}
-                <em>factory reset</em> that erases its identity.
+                turn an adult cell all the way back into a stem cell&nbsp;&mdash; a{" "}
+                <em>factory reset</em> that erases its&nbsp;identity.
               </p>
 
               <p className="mech-step mt-6 max-w-[48ch] text-lg leading-relaxed text-[var(--text-secondary)] opacity-0 md:text-xl">
-                But applied in <strong className="text-[var(--charcoal)]">short, controlled pulses</strong>?
+                But applied in <strong className="text-[var(--charcoal)]">short, controlled&nbsp;pulses</strong>?
                 The cell gets <strong className="text-[var(--terracotta)]">younger</strong> while
-                keeping its identity intact. A skin cell stays a skin cell.
-                A neuron stays a neuron.{" "}
-                <em className="text-[var(--terracotta)]">Just younger.</em>
+                keeping its identity intact. A skin cell stays a skin&nbsp;cell.
+                A neuron stays a&nbsp;neuron.{" "}
+                <em className="text-[var(--terracotta)]">Just&nbsp;younger.</em>
               </p>
 
               {/* Pulsed expression timeline visual */}
@@ -249,7 +249,7 @@ export function ActThree() {
 
               {/* Factory Reset vs Reboot — larger, more prominent */}
               <div className="mt-10 grid grid-cols-2 gap-4">
-                <div className="comp-card rounded-xl border border-[var(--muted-light)] bg-[var(--cream)] p-6 opacity-0 opacity-60">
+                <div className="comp-card rounded-xl border border-[var(--muted-light)] bg-[var(--cream)] p-6 opacity-0 opacity-60 transition-transform duration-200 active:scale-[0.98]">
                   <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-lg bg-[var(--muted)] opacity-20">
                     <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
                       <path d="M4 10h12M10 4v12" stroke="var(--muted)" strokeWidth="1.5" strokeLinecap="round" />
@@ -264,7 +264,7 @@ export function ActThree() {
                   </p>
                 </div>
 
-                <div className="comp-card rounded-xl border-2 border-[var(--terracotta)]/40 bg-[var(--cream)] p-6 opacity-0">
+                <div className="comp-card rounded-xl border-2 border-[var(--terracotta)]/40 bg-[var(--cream)] p-6 opacity-0 transition-transform duration-200 active:scale-[0.98]">
                   <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-lg bg-[var(--terracotta)] opacity-10">
                     <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
                       <path d="M10 4a6 6 0 11-6 6" stroke="var(--terracotta)" strokeWidth="1.5" strokeLinecap="round" />
@@ -275,8 +275,8 @@ export function ActThree() {
                     Reboot
                   </p>
                   <p className="mt-2 text-sm leading-relaxed text-[var(--text-secondary)]">
-                    Keeps identity. Clears epigenetic errors. The cell
-                    remembers <em>what</em> it is, but forgets <em>how old</em>.
+                    Keeps identity. Clears the wear of&nbsp;time. The cell
+                    remembers <em>what</em> it is, but forgets <em>how&nbsp;old</em>.
                   </p>
                 </div>
               </div>

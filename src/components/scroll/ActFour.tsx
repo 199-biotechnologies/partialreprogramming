@@ -8,7 +8,7 @@ const milestones = [
     year: "2006",
     title: "The Discovery",
     description:
-      "Shinya Yamanaka identifies four transcription factors that can reprogram adult cells into stem cells.",
+      "Shinya Yamanaka identifies four proteins that can reprogram adult cells back into stem cells.",
     detail: "Nobel Prize in Physiology or Medicine, 2012",
     highlight: false,
   },
@@ -16,7 +16,7 @@ const milestones = [
     year: "2016",
     title: "First Reversal in Mice",
     description:
-      "Juan Carlos Izpisua Belmonte's lab at the Salk Institute shows that cyclic expression of Yamanaka factors extends lifespan in prematurely aging mice.",
+      "Belmonte's lab at the Salk Institute shows that pulsing the Yamanaka factors extends lifespan in prematurely aging mice.",
     detail: "Ocampo et al., Cell",
     highlight: false,
   },
@@ -24,7 +24,7 @@ const milestones = [
     year: "2019",
     title: "Human Cells Rejuvenated",
     description:
-      "Sarkar et al. use mRNA-based OSKM delivery to reverse aging in human muscle stem cells, cartilage, and endothelial cells — no genetic modification needed.",
+      "Sarkar et al. use mRNA to reverse aging in human muscle, cartilage, and blood vessel cells \u2014 no permanent genetic changes needed.",
     detail: "Sarkar et al., Nature Communications",
     highlight: false,
   },
@@ -32,7 +32,7 @@ const milestones = [
     year: "2020",
     title: "Vision Restored",
     description:
-      "David Sinclair's lab at Harvard uses three of the four factors (OSK) to restore vision in aged mice — restoring 90% of youthful gene expression and decreasing epigenetic age by 3 months — by resetting the epigenetic clock in retinal cells.",
+      "Sinclair's lab at Harvard uses three of the four factors to restore vision in aged mice \u2014 resetting the biological clock in their retinal cells and recovering 90% of youthful gene activity.",
     detail: "Lu et al., Nature",
     highlight: false,
   },
@@ -40,7 +40,7 @@ const milestones = [
     year: "2021",
     title: "30-Year Age Reversal",
     description:
-      "Gill et al. achieve a 30-year reduction in epigenetic age of human fibroblasts using lentiviral OSKM expression for 10-17 days, while preserving cell identity.",
+      "Gill et al. achieve a 30-year reduction in biological age of human skin cells after just 10\u201317 days of treatment \u2014 while the cells keep their identity intact.",
     detail: "Gill et al., eLife",
     highlight: false,
   },
@@ -206,7 +206,7 @@ export function ActFour() {
           </h2>
           <p className="mt-6 max-w-[55ch] text-lg leading-relaxed text-[var(--text-secondary)] md:text-xl">
             Two decades of accelerating breakthroughs. From a laboratory
-            curiosity to the <strong className="text-[var(--charcoal)]">first human trials</strong>.
+            curiosity to the <strong className="text-[var(--charcoal)]">first human&nbsp;trials</strong>.
           </p>
         </div>
 

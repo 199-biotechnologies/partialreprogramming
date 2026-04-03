@@ -240,10 +240,10 @@ export function ActTwo() {
             </h2>
 
             <p className="reveal-para mt-8 max-w-[42ch] text-lg leading-relaxed text-[var(--text-secondary)] opacity-0 md:text-xl">
-              Here&apos;s the remarkable thing: underneath all that
-              epigenetic noise, your cells still hold a{" "}
-              <strong className="text-[var(--charcoal)]">complete copy</strong> of
-              their youthful instructions.
+              Here&apos;s the remarkable part: beneath all that
+              epigenetic noise, your cells still carry a{" "}
+              <strong className="text-[var(--charcoal)]">complete&nbsp;copy</strong> of
+              their youthful&nbsp;instructions.
             </p>
 
             <p className="reveal-para mt-6 max-w-[42ch] text-lg leading-relaxed text-[var(--text-secondary)] opacity-0 md:text-xl">

@@ -213,10 +213,10 @@ export function ActFive() {
           {frontiers.map((f) => (
             <div
               key={f.company}
-              className="frontier-card group relative overflow-hidden rounded-xl border border-[var(--cream)]/10 bg-[var(--charcoal)] p-6 transition-all duration-500 hover:border-[var(--terracotta)]/40 md:p-8"
+              className="frontier-card group relative overflow-hidden rounded-xl border border-[var(--cream)]/10 bg-[var(--charcoal)] p-6 transition-all duration-300 ease-out hover:border-[var(--terracotta)]/40 md:p-8"
             >
               {/* Gradient border glow on hover */}
-              <div className="pointer-events-none absolute inset-0 rounded-xl opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+              <div className="pointer-events-none absolute inset-0 rounded-xl opacity-0 transition-opacity duration-300 ease-out group-hover:opacity-100"
                 style={{
                   background:
                     "linear-gradient(135deg, rgba(191,111,74,0.08) 0%, transparent 50%, rgba(191,111,74,0.04) 100%)",
@@ -248,9 +248,9 @@ export function ActFive() {
         {/* Call to wonder */}
         <div className="call-to-wonder mt-24 border-t border-[var(--cream)]/10 pt-16">
           <p className="mx-auto max-w-[52ch] text-center text-lg leading-relaxed text-[var(--cream)] opacity-60 md:text-xl">
-            For the first time in human history, we have the tools to ask
-            whether the deep program of aging can be reversed &mdash; not
-            someday, but <em className="text-[var(--cream)] opacity-100">now</em>.
+            For the first time in human history, we can ask not whether
+            aging is written in stone&nbsp;&mdash; but whether the stone
+            itself can be <em className="text-[var(--cream)] opacity-100">rewritten</em>.
           </p>
         </div>
 
@@ -259,11 +259,11 @@ export function ActFive() {
           <p className="mx-auto max-w-[50ch] text-center font-[family-name:var(--font-playfair)] text-xl sm:text-2xl leading-snug text-[var(--cream)] md:text-3xl lg:text-4xl xl:text-5xl">
             The question is no longer{" "}
             <em className="text-[var(--cream)] opacity-40">if</em> aging can
-            be reversed.
+            be&nbsp;reversed.
           </p>
           <p className="mx-auto mt-4 max-w-[50ch] text-center font-[family-name:var(--font-playfair)] text-xl sm:text-2xl leading-snug md:text-3xl lg:text-4xl xl:text-5xl">
             It&apos;s{" "}
-            <em className="text-[var(--terracotta)]">when.</em>
+            <em className="text-[var(--terracotta)]">how&nbsp;soon.</em>
           </p>
         </div>
 
