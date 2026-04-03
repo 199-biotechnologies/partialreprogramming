@@ -58,7 +58,7 @@ export const papers: Paper[] = [
     title: "The Strategy of the Genes",
     authors: "Waddington, C.H.",
     journal: "George Allen & Unwin (book)",
-    doi: "#",
+    doi: "https://doi.org/10.4324/9781315765471",
     summary:
       'Introduced the "epigenetic landscape" metaphor -- a ball rolling through valleys of cell fate. The conceptual foundation for understanding reprogramming as movement through epigenetic state space.',
     organism: "Theoretical",
@@ -347,7 +347,7 @@ export const papers: Paper[] = [
     year: "2025",
     title:
       "Chemical Reprogramming Ameliorates Cellular Hallmarks of Aging and Extends Lifespan",
-    authors: "Multiple authors",
+    authors: "Schoenfeldt, L., Paine, P.T., Pico, S. et al.",
     journal: "EMBO Molecular Medicine",
     doi: "https://doi.org/10.1038/s44321-025-00265-9",
     summary:
@@ -466,22 +466,11 @@ export const papers: Paper[] = [
     year: "2025",
     title:
       "Senescence-Resistant Human Mesenchymal Progenitor Cells Counter Aging in Primates",
-    authors: "Multiple authors",
+    authors: "Lei, J., Xin, Z., Liu, N. et al.",
     journal: "Cell",
     doi: "https://doi.org/10.1016/j.cell.2025.05.021",
     summary:
       "FOXO3-engineered cells delivered to aged macaques improved cognition, preserved brain structure, rejuvenated immunity, and reversed biological age across multiple tissues.",
-    organism: "Non-human primate",
-    category: "primates",
-  },
-  {
-    year: "2024",
-    title: "ER-100 NHP Studies",
-    authors: "Life Biosciences research team",
-    journal: "AAO 2024 / ARDD 2025",
-    doi: "#",
-    summary:
-      "AAV-delivered OSK gene therapy (ER-100) reduced optic neuropathy deficits in NHPs in both prevention and rescue models. Human clinical trials planned for 2026.",
     organism: "Non-human primate",
     category: "primates",
   },
@@ -528,7 +517,7 @@ export const papers: Paper[] = [
     year: "2024",
     title:
       "Mechanisms, Pathways and Strategies for Rejuvenation Through Epigenetic Reprogramming",
-    authors: "Multiple authors",
+    authors: "Cipriano, A., Moqri, M., Maybury-Lewis, S.Y. et al.",
     journal: "Nature Aging",
     doi: "https://doi.org/10.1038/s43587-023-00539-2",
     summary:
@@ -540,7 +529,7 @@ export const papers: Paper[] = [
     year: "2024",
     title:
       "Cellular Plasticity in Reprogramming, Rejuvenation and Tumorigenesis: A Pioneer TF Perspective",
-    authors: "Multiple authors",
+    authors: "Huyghe, A., Trajkova, A. and Lavial, F.",
     journal: "Trends in Cell Biology",
     doi: "https://doi.org/10.1016/j.tcb.2023.07.013",
     summary:
@@ -568,9 +557,9 @@ export const papers: Paper[] = [
     year: "2025",
     title:
       "Partial Reprogramming by Cyclical Overexpression of Yamanaka Factors Improves Pathological Phenotypes of Tauopathy Mouse Model of Human Alzheimer's Disease",
-    authors: "Anton-Fernandez et al.",
+    authors: "Anton-Fernandez, A., Ruiz de Alegria, A., Mariscal-Casero, A. et al.",
     journal: "Progress in Neurobiology",
-    doi: "#",
+    doi: "https://doi.org/10.1016/j.pneurobio.2025.102743",
     summary:
       "Cyclical OSKM improved pathological phenotypes in an Alzheimer's tauopathy model, demonstrating therapeutic potential for neurodegenerative diseases.",
     organism: "Mouse (Alzheimer's)",
@@ -592,9 +581,9 @@ export const papers: Paper[] = [
     year: "2026",
     title:
       "The Epigenetic Rejuvenation Promise: Partial Reprogramming as a Therapeutic Strategy for Aging and Disease",
-    authors: "Multiple authors",
+    authors: "Li, Y.Y. and Tay, F.R.",
     journal: "Ageing Research Reviews",
-    doi: "#",
+    doi: "https://doi.org/10.1016/j.arr.2026.103009",
     summary:
       "Comprehensive review of how partial reprogramming resets epigenetic age and opens therapeutic opportunities for degenerative diseases without tumorigenic risks.",
     organism: "Review",
@@ -606,7 +595,7 @@ export const papers: Paper[] = [
       "Redefining Cellular Reprogramming with Advanced Genomic Technologies",
     authors: "Morris, S.A.",
     journal: "Nature Reviews Genetics",
-    doi: "#",
+    doi: "https://doi.org/10.1038/s41576-025-00899-y",
     summary:
       "Reviews how single-cell genomics and molecular recording tools are revealing mechanisms of incomplete reprogramming, highlighting targetable failure points for rejuvenation therapies.",
     organism: "Review",
@@ -620,14 +609,14 @@ export const categories = [
   { key: "all", label: "All" },
   { key: "foundational", label: "Foundational" },
   { key: "theoretical", label: "Theoretical" },
-  { key: "mouse-progeria", label: "Mouse (Progeria)" },
-  { key: "mouse-wildtype", label: "Mouse (Wildtype)" },
-  { key: "tissue-specific", label: "Tissue-Specific" },
+  { key: "mouse-progeria", label: "Aging Mice (Progeria)" },
+  { key: "mouse-wildtype", label: "Aging Mice (Natural)" },
+  { key: "tissue-specific", label: "Organ-Specific" },
   { key: "human-cells", label: "Human Cells" },
-  { key: "chemical", label: "Chemical" },
-  { key: "clocks", label: "Epigenetic Clocks" },
-  { key: "safety", label: "Safety" },
-  { key: "primates", label: "Primates" },
+  { key: "chemical", label: "Drug-Based" },
+  { key: "clocks", label: "Biological Clocks" },
+  { key: "safety", label: "Safety & Risks" },
+  { key: "primates", label: "Primate Studies" },
   { key: "reviews", label: "Reviews" },
   { key: "latest", label: "2025-2026" },
 ] as const;

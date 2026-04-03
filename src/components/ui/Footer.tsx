@@ -67,9 +67,10 @@ export function Footer() {
               </a>
             </div>
             <p className="text-xs leading-relaxed text-[var(--muted)]">
-              Made with curiosity, not a stethoscope. This is an educational
-              resource&nbsp;&mdash; not medical advice. We have no affiliation
-              with the companies&nbsp;mentioned.
+              This is an educational resource for informational purposes
+              only&nbsp;&mdash; it does not constitute medical advice and
+              should not be used to make treatment decisions. We have no
+              affiliation with the companies or researchers&nbsp;mentioned.
             </p>
           </div>
 

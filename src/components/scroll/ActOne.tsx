@@ -164,14 +164,16 @@ export function ActOne() {
               {/* Step 3: Waddington landscape */}
               <div className="step-text mt-8 md:mt-0 md:absolute md:inset-0 opacity-0">
                 <p className="max-w-[42ch] text-lg leading-relaxed text-[var(--text-secondary)] md:text-xl">
-                  Biologists picture this through the{" "}
-                  <strong className="text-[var(--charcoal)]">Waddington landscape</strong>{" "}
-                  &mdash; imagine a marble rolling downhill into valleys. Each valley
+                  A metaphor borrowed from developmental biology helps
+                  here: the{" "}
+                  <strong className="text-[var(--charcoal)]">Waddington landscape</strong>.
+                  Imagine a marble rolling downhill into valleys. Each valley
                   is a cell type: skin, muscle,&nbsp;neuron.
                 </p>
                 <p className="mt-4 max-w-[42ch] text-lg leading-relaxed text-[var(--text-secondary)] md:text-xl">
-                  As cells age, the valleys erode. The landscape flattens.
-                  Cells begin to <em>lose their identity</em>.
+                  Originally conceived to describe embryonic development,
+                  aging researchers now apply it to explain how cells
+                  gradually <em>lose their identity</em> over&nbsp;time.
                 </p>
               </div>
 
@@ -204,6 +206,9 @@ export function ActOne() {
                     In 2023, Sinclair&apos;s team published the Information Theory of
                     Aging in <em>Nature Aging</em>, arguing that aging is primarily
                     driven by epigenetic information loss &mdash; not DNA mutations.
+                    It remains an influential but debated hypothesis; critics including
+                    Brenner and Timmons have challenged parts of the underlying
+                    evidence in <em>Cell</em>.
                   </p>
                 </div>
               </div>

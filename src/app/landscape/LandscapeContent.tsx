@@ -6,6 +6,7 @@ import { gsap } from "@/lib/gsap";
 import {
   companies as rawCompanies,
   clinicalTrials,
+  regulatoryMilestones,
   academicLabs,
   longevityFunds,
   marketStats,
@@ -320,6 +321,46 @@ export default function LandscapeContent() {
               </table>
             </div>
           </ScrollReveal>
+
+          {/* Regulatory milestones — pre-IND programs */}
+          {regulatoryMilestones.length > 0 && (
+            <ScrollReveal>
+              <h3 className="mt-16 font-[family-name:var(--font-playfair)] text-2xl tracking-tight md:text-3xl">
+                Regulatory Milestones
+              </h3>
+              <p className="mt-2 max-w-[50ch] text-sm text-[var(--text-secondary)]">
+                Pre-IND programs with significant regulatory progress but not yet in clinical trials.
+              </p>
+              <div className="mt-8 space-y-4">
+                {regulatoryMilestones.map((m) => (
+                  <div
+                    key={m.company}
+                    className="rounded-xl border border-[var(--muted-light)] bg-white/50 p-6"
+                  >
+                    <div className="flex flex-wrap items-start justify-between gap-4">
+                      <div>
+                        <h4 className="font-[family-name:var(--font-playfair)] text-lg text-[var(--charcoal)]">
+                          {m.company}
+                        </h4>
+                        <p className="mt-1 text-sm text-[var(--text-secondary)]">
+                          {m.indication}
+                        </p>
+                      </div>
+                      <span className="shrink-0 rounded-full border border-[var(--terracotta)]/20 bg-[var(--terracotta)]/5 px-3 py-1 font-[family-name:var(--font-jetbrains)] text-[10px] tracking-widest text-[var(--terracotta)] uppercase">
+                        {m.milestone} &mdash; {m.date}
+                      </span>
+                    </div>
+                    <p className="mt-3 text-sm leading-relaxed text-[var(--muted)]">
+                      {m.program}
+                    </p>
+                    <p className="mt-2 text-xs leading-relaxed text-[var(--muted)]">
+                      {m.notes}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </ScrollReveal>
+          )}
         </div>
       </section>
 

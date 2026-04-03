@@ -199,8 +199,8 @@ export function HeroSection() {
               className="mt-8 max-w-[48ch] text-lg leading-relaxed text-[var(--text-secondary)] opacity-0 md:text-xl lg:text-2xl"
             >
               Every one of your <strong className="text-[var(--charcoal)]">37&nbsp;trillion cells</strong> runs
-              the same exquisite program&nbsp;&mdash; a melody written in&nbsp;DNA,
-              performed fresh each day by the machinery of&nbsp;life.
+              the same genetic program&nbsp;&mdash; instructions written in&nbsp;DNA,
+              read fresh each day by the molecular machinery of&nbsp;life.
             </p>
           </div>
 

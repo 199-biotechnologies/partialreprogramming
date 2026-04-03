@@ -174,7 +174,7 @@ export default function ResourcesContent() {
                   </p>
 
                   {/* Visit link indicator */}
-                  <span className="mt-4 inline-flex items-center gap-1 font-[family-name:var(--font-jetbrains)] text-xs tracking-wide text-[var(--terracotta)] opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                  <span className="mt-4 inline-flex items-center gap-1 font-[family-name:var(--font-jetbrains)] text-xs tracking-wide text-[var(--terracotta)] opacity-60 transition-opacity duration-300 group-hover:opacity-100">
                     Visit <ArrowUpRight />
                   </span>
                 </a>

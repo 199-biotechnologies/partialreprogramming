@@ -5,10 +5,10 @@ import { gsap, ScrollTrigger } from "@/lib/gsap";
 import { DnaStrand } from "@/components/svg/DnaStrand";
 
 const factors = [
-  { letter: "O", name: "Oct4", desc: "Activates the youth program" },
-  { letter: "S", name: "Sox2", desc: "Maintains stem cell state" },
-  { letter: "K", name: "Klf4", desc: "Guards cell identity" },
-  { letter: "M", name: "c-Myc", desc: "Amplifies gene activity" },
+  { letter: "O", name: "Oct4", desc: "Pioneer TF — opens silenced chromatin" },
+  { letter: "S", name: "Sox2", desc: "Co-binds with Oct4 to reset gene expression" },
+  { letter: "K", name: "Klf4", desc: "Stabilises epithelial cell identity" },
+  { letter: "M", name: "c-Myc", desc: "Accelerates transcription globally" },
 ];
 
 export function ActThree() {

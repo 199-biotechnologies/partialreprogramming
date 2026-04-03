@@ -183,6 +183,7 @@ export function Waveform() {
       viewBox={`0 0 ${WIDTH} ${HEIGHT}`}
       className="w-full"
       preserveAspectRatio="xMidYMid meet"
+      aria-hidden="true"
     >
       <defs>
         {/* Glow filter for the primary wave layers */}

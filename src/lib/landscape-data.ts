@@ -55,7 +55,7 @@ export const companies: Company[] = [
     approach:
       "Multi-modal longevity platform: partial reprogramming, autophagy modulation, and plasma-inspired therapies. AI-driven drug discovery for cellular rejuvenation of blood and brain cells.",
     pipelineStatus:
-      "Clinical trials initiated for three drugs in 2025, including an Alzheimer's treatment (microglia replacement) entering early-stage trial in Australia. Blood stem cell therapy and metabolic caloric-restriction mimetics in development.",
+      "Clinical trials initiated for three drugs in 2025, including RTR242, a small-molecule autophagy activator, entering early-stage trial in Australia. Separate partial reprogramming program remains preclinical. Blood stem cell therapy and metabolic caloric-restriction mimetics in development.",
     website: "https://www.retro.bio",
     mission:
       "Add 10 years to healthy human lifespan by targeting the cellular hallmarks of aging.",
@@ -626,30 +626,15 @@ export const clinicalTrials: ClinicalTrial[] = [
       "Phase 1 Study of ER-100 in Optic Neuropathies (Glaucoma and NAION)",
     sponsor: "Life Biosciences",
     phase: "Phase 1 (First-in-Human)",
-    status: "IND cleared by FDA, enrolling Q1 2026",
+    status: "Enrolling — trial started March 2, 2026",
     indication:
       "Open-angle glaucoma (OAG) and non-arteritic anterior ischemic optic neuropathy (NAION)",
     intervention:
-      "ER-100: AAV-delivered partial epigenetic reprogramming (OCT4, SOX2, KLF4) to retinal ganglion cells",
+      "ER-100: modified AAV-delivered partial epigenetic reprogramming (OCT4, SOX2, KLF4) to retinal ganglion cells, with 8-week oral doxycycline regimen to control transgene expression",
     enrollmentTarget: "Not yet disclosed",
-    startDate: "Q1 2026",
+    startDate: "March 2, 2026",
     notes:
-      "HISTORIC: First-ever partial reprogramming therapy to enter human clinical trials. Based on David Sinclair's REVIVER mouse work at Harvard. Safety, tolerability, immune response, and visual assessments.",
-  },
-  {
-    nctId: "Pre-IND (FDA INTERACT complete)",
-    title: "YB002 for Alzheimer's Disease (Planned)",
-    sponsor: "YouthBio Therapeutics",
-    phase: "Pre-IND",
-    status:
-      "Positive FDA INTERACT meeting Sept 2025. CMC and pilot tox studies underway.",
-    indication: "Alzheimer's disease",
-    intervention:
-      "YB002: AAV gene therapy delivering partial reprogramming factors to dentate gyrus hippocampal neurons",
-    enrollmentTarget: "TBD",
-    startDate: "Estimated ~2028",
-    notes:
-      "FDA confirmed preclinical bioactivity. Would be first partial reprogramming therapy for the brain. Aged mice showed cognitive improvement in preclinical studies.",
+      "HISTORIC: First-ever partial reprogramming therapy to enter human clinical trials. Based on David Sinclair's REVIVER mouse work at Harvard. Uses doxycycline-inducible system for safety control. Endpoints: safety, tolerability, immune response, and visual assessments.",
   },
   {
     nctId: "IND planned",
@@ -667,17 +652,17 @@ export const clinicalTrials: ClinicalTrial[] = [
   },
   {
     nctId: "Retro-AU-2025",
-    title: "Retro Biosciences Alzheimer's Early-Stage Trial",
+    title: "Retro Biosciences RTR242 Autophagy Trial",
     sponsor: "Retro Biosciences",
     phase: "Phase 1 (Australia)",
     status: "Initiated 2025",
-    indication: "Alzheimer's disease (microglia replacement)",
+    indication: "Age-related autophagy decline",
     intervention:
-      "Cell therapy replacing aged/dysfunctional microglia with rejuvenated cells",
+      "RTR242: small-molecule autophagy activator designed to restore cellular waste clearance",
     enrollmentTarget: "Not yet disclosed",
     startDate: "2025",
     notes:
-      "Part of Retro's $1B program. One of three clinical programs alongside blood stem cell therapy and metabolic interventions.",
+      "Part of Retro's $1B program. Autophagy modulation arm — distinct from the preclinical partial reprogramming program. One of three clinical programs alongside blood stem cell therapy and metabolic interventions.",
   },
   {
     nctId: "STAY (Loyal)",
@@ -693,6 +678,31 @@ export const clinicalTrials: ClinicalTrial[] = [
     startDate: "Ongoing",
     notes:
       "Largest veterinary clinical trial in history. If approved, would be the first FDA-approved lifespan extension drug in any species. Not reprogramming per se but validates geroscience therapeutic model.",
+  },
+];
+
+// -----------------------------------------------------------------------------
+// REGULATORY MILESTONES (not yet in clinical trials)
+// -----------------------------------------------------------------------------
+
+export interface RegulatoryMilestone {
+  company: string;
+  milestone: string;
+  date: string;
+  program: string;
+  indication: string;
+  notes: string;
+}
+
+export const regulatoryMilestones: RegulatoryMilestone[] = [
+  {
+    company: "YouthBio Therapeutics",
+    milestone: "Positive FDA INTERACT meeting",
+    date: "September 2025",
+    program: "YB002: AAV gene therapy delivering partial reprogramming factors to dentate gyrus hippocampal neurons",
+    indication: "Alzheimer's disease",
+    notes:
+      "FDA confirmed preclinical bioactivity and supports path to first-in-human trial. CMC and pilot tox studies underway. Would be first partial reprogramming therapy for the brain. Estimated clinical entry ~2028.",
   },
 ];
 

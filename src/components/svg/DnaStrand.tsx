@@ -432,6 +432,7 @@ export function DnaStrand({ mode = "aging" }: DnaStrandProps) {
       ref={svgRef}
       viewBox={`0 0 ${WIDTH} ${HEIGHT}`}
       className="mx-auto h-[480px] w-full max-w-[300px]"
+      aria-hidden="true"
     >
       <defs>
         {/* Glow filter for backup mode */}

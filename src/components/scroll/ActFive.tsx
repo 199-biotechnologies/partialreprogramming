@@ -14,9 +14,9 @@ const frontiers = [
   {
     company: "Retro Biosciences",
     status: "Clinical Stage",
-    target: "Neurodegeneration",
+    target: "Autophagy / aging",
     detail:
-      "Autophagy-based rejuvenation therapy in human trials, targeting the aging brain.",
+      "RTR242 autophagy activator in human trials. Separate partial reprogramming program remains preclinical.",
   },
   {
     company: "NewLimit",
@@ -203,9 +203,9 @@ export function ActFive() {
           Act V &mdash; The Threshold
         </span>
 
-        <h2 className="closing-headline max-w-[18ch] font-[family-name:var(--font-playfair)] text-3xl sm:text-4xl leading-[1.05] tracking-tight text-[var(--cream)] md:text-5xl lg:text-7xl xl:text-8xl">
-          The first patients are{" "}
-          <em className="text-[var(--terracotta)]">being treated now.</em>
+        <h2 className="closing-headline max-w-[20ch] font-[family-name:var(--font-playfair)] text-3xl sm:text-4xl leading-[1.05] tracking-tight text-[var(--cream)] md:text-5xl lg:text-7xl xl:text-8xl">
+          The first human trial has{" "}
+          <em className="text-[var(--terracotta)]">entered the clinic.</em>
         </h2>
 
         {/* Company cards — 2x2 grid */}
@@ -256,14 +256,9 @@ export function ActFive() {
 
         {/* Closing line — parallax float */}
         <div ref={closingRef} className="mt-20 md:mt-28">
-          <p className="mx-auto max-w-[50ch] text-center font-[family-name:var(--font-playfair)] text-xl sm:text-2xl leading-snug text-[var(--cream)] md:text-3xl lg:text-4xl xl:text-5xl">
-            The question is no longer{" "}
-            <em className="text-[var(--cream)] opacity-40">if</em> aging can
-            be&nbsp;reversed.
-          </p>
-          <p className="mx-auto mt-4 max-w-[50ch] text-center font-[family-name:var(--font-playfair)] text-xl sm:text-2xl leading-snug md:text-3xl lg:text-4xl xl:text-5xl">
-            It&apos;s{" "}
-            <em className="text-[var(--terracotta)]">how&nbsp;soon.</em>
+          <p className="mx-auto max-w-[55ch] text-center font-[family-name:var(--font-playfair)] text-xl sm:text-2xl leading-snug text-[var(--cream)] md:text-3xl lg:text-4xl xl:text-5xl">
+            The open question: whether early rejuvenation signals can become{" "}
+            <em className="text-[var(--terracotta)]">safe, repeatable treatments.</em>
           </p>
         </div>
 

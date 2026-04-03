@@ -21,7 +21,7 @@ const milestones = [
     highlight: false,
   },
   {
-    year: "2019",
+    year: "2020",
     title: "Human Cells Rejuvenated",
     description:
       "Sarkar et al. use mRNA to reverse aging in human muscle, cartilage, and blood vessel cells \u2014 no permanent genetic changes needed.",
@@ -37,7 +37,7 @@ const milestones = [
     highlight: false,
   },
   {
-    year: "2021",
+    year: "2022",
     title: "30-Year Age Reversal",
     description:
       "Gill et al. achieve a 30-year reduction in biological age of human skin cells after just 10\u201317 days of treatment \u2014 while the cells keep their identity intact.",
@@ -53,11 +53,11 @@ const milestones = [
     highlight: false,
   },
   {
-    year: "2025",
+    year: "2026",
     title: "Memory Restored",
     description:
       "Partial reprogramming restores learning and memory in aged mice to youthful levels, demonstrating the brain is not beyond reach.",
-    detail: "Published in Neuron",
+    detail: "Berdugo-Vega et al., Neuron",
     highlight: false,
   },
   {
@@ -202,11 +202,14 @@ export function ActFour() {
             Act IV &mdash; The Proof
           </span>
           <h2 className="font-[family-name:var(--font-playfair)] text-4xl leading-[1.1] tracking-tight text-[var(--charcoal)] md:text-5xl lg:text-6xl">
-            It <em className="text-[var(--terracotta)]">works.</em>
+            The evidence got harder to{" "}
+            <em className="text-[var(--terracotta)]">ignore.</em>
           </h2>
           <p className="mt-6 max-w-[55ch] text-lg leading-relaxed text-[var(--text-secondary)] md:text-xl">
-            Two decades of accelerating breakthroughs. From a laboratory
-            curiosity to the <strong className="text-[var(--charcoal)]">first human&nbsp;trials</strong>.
+            Two decades of accelerating results&nbsp;&mdash; mostly in mice
+            and cell culture so&nbsp;far. Each milestone moved the field
+            closer to the <strong className="text-[var(--charcoal)]">first human&nbsp;trials</strong>,
+            but major safety and efficacy questions remain&nbsp;open.
           </p>
         </div>
 
