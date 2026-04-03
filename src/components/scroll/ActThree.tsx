@@ -249,19 +249,21 @@ export function ActThree() {
 
               {/* Factory Reset vs Reboot — larger, more prominent */}
               <div className="mt-10 grid grid-cols-2 gap-4">
-                <div className="comp-card rounded-xl border border-[var(--muted-light)] bg-[var(--cream)] p-6 opacity-0 opacity-60 transition-transform duration-200 active:scale-[0.98]">
-                  <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-lg bg-[var(--muted)] opacity-20">
-                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                      <path d="M4 10h12M10 4v12" stroke="var(--muted)" strokeWidth="1.5" strokeLinecap="round" />
-                    </svg>
+                <div className="comp-card rounded-xl border border-[var(--muted-light)] bg-[var(--cream)] p-6 opacity-0 transition-transform duration-200 active:scale-[0.98]">
+                  <div className="opacity-60">
+                    <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-lg bg-[var(--muted)] opacity-20">
+                      <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                        <path d="M4 10h12M10 4v12" stroke="var(--muted)" strokeWidth="1.5" strokeLinecap="round" />
+                      </svg>
+                    </div>
+                    <p className="font-[family-name:var(--font-playfair)] text-lg font-semibold text-[var(--muted)] line-through">
+                      Factory Reset
+                    </p>
+                    <p className="mt-2 text-sm leading-relaxed text-[var(--muted)]">
+                      Erases cell identity completely. The cell forgets
+                      what it was.
+                    </p>
                   </div>
-                  <p className="font-[family-name:var(--font-playfair)] text-lg font-semibold text-[var(--muted)] line-through">
-                    Factory Reset
-                  </p>
-                  <p className="mt-2 text-sm leading-relaxed text-[var(--muted)]">
-                    Erases cell identity completely. The cell forgets
-                    what it was.
-                  </p>
                 </div>
 
                 <div className="comp-card rounded-xl border-2 border-[var(--terracotta)]/40 bg-[var(--cream)] p-6 opacity-0 transition-transform duration-200 active:scale-[0.98]">

@@ -149,7 +149,7 @@ export function ActOne() {
               </div>
 
               {/* Step 2: methylation */}
-              <div className="step-text mt-8 md:mt-0 md:absolute md:inset-0 opacity-0 md:opacity-0">
+              <div className="step-text mt-8 md:mt-0 md:absolute md:inset-0 opacity-0">
                 <p className="max-w-[42ch] text-lg leading-relaxed text-[var(--text-secondary)] md:text-xl">
                   These marks&nbsp;&mdash; called{" "}
                   <strong className="text-[var(--charcoal)]">DNA&nbsp;methylation</strong>{" "}
@@ -162,7 +162,7 @@ export function ActOne() {
               </div>
 
               {/* Step 3: Waddington landscape */}
-              <div className="step-text mt-8 md:mt-0 md:absolute md:inset-0 opacity-0 md:opacity-0">
+              <div className="step-text mt-8 md:mt-0 md:absolute md:inset-0 opacity-0">
                 <p className="max-w-[42ch] text-lg leading-relaxed text-[var(--text-secondary)] md:text-xl">
                   Biologists picture this through the{" "}
                   <strong className="text-[var(--charcoal)]">Waddington landscape</strong>{" "}
@@ -176,7 +176,7 @@ export function ActOne() {
               </div>
 
               {/* Step 4: epigenetic clock */}
-              <div className="step-text mt-8 md:mt-0 md:absolute md:inset-0 opacity-0 md:opacity-0">
+              <div className="step-text mt-8 md:mt-0 md:absolute md:inset-0 opacity-0">
                 <p className="max-w-[42ch] text-lg leading-relaxed text-[var(--text-secondary)] md:text-xl">
                   Scientists can now measure this wear precisely.
                   It&apos;s called the{" "}
@@ -190,7 +190,7 @@ export function ActOne() {
               </div>
 
               {/* Step 5: the pull-quote */}
-              <div className="step-text mt-8 md:mt-0 md:absolute md:inset-0 flex items-center opacity-0 md:opacity-0">
+              <div className="step-text mt-8 md:mt-0 md:absolute md:inset-0 flex items-center opacity-0">
                 <div>
                   <blockquote className="max-w-[50ch] font-[family-name:var(--font-playfair)] text-3xl leading-snug text-[var(--charcoal)] italic md:text-4xl lg:text-5xl">
                     &ldquo;Aging is not the accumulation of damage
