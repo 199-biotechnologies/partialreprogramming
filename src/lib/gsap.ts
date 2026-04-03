@@ -2,38 +2,38 @@
 
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import Lenis from "lenis";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
 }
 
-let lenisInstance: Lenis | null = null;
+let lenisInstance: unknown = null;
 
-export function initSmoothScroll(): Lenis {
+export async function initSmoothScroll() {
   if (lenisInstance) return lenisInstance;
 
-  const lenis = new Lenis({
-    lerp: 0.1,
-  });
+  try {
+    const { default: Lenis } = await import("lenis");
+    const lenis = new Lenis({ lerp: 0.1 });
 
-  // Sync Lenis scroll position with ScrollTrigger
-  lenis.on("scroll", ScrollTrigger.update);
+    lenis.on("scroll", ScrollTrigger.update);
+    gsap.ticker.add((time: number) => {
+      lenis.raf(time * 1000);
+    });
+    gsap.ticker.lagSmoothing(0);
 
-  // Drive Lenis from the GSAP ticker so it stays perfectly in sync
-  gsap.ticker.add((time) => {
-    lenis.raf(time * 1000);
-  });
-
-  gsap.ticker.lagSmoothing(0);
-
-  lenisInstance = lenis;
-  return lenis;
+    lenisInstance = lenis;
+    return lenis;
+  } catch {
+    // Lenis failed to load — site works fine without smooth scroll
+    console.warn("Lenis smooth scroll unavailable, falling back to native scroll");
+    return null;
+  }
 }
 
 export function destroySmoothScroll() {
-  if (lenisInstance) {
-    lenisInstance.destroy();
+  if (lenisInstance && typeof (lenisInstance as { destroy: () => void }).destroy === "function") {
+    (lenisInstance as { destroy: () => void }).destroy();
     lenisInstance = null;
   }
 }
