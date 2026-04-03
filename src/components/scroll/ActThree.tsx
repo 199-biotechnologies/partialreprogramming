@@ -4,6 +4,13 @@ import { useRef, useEffect } from "react";
 import { gsap, ScrollTrigger } from "@/lib/gsap";
 import { DnaStrand } from "@/components/svg/DnaStrand";
 
+const factors = [
+  { letter: "O", name: "Oct4", desc: "Master regulator of pluripotency" },
+  { letter: "S", name: "Sox2", desc: "Stem cell maintenance" },
+  { letter: "K", name: "Klf4", desc: "Cell identity gatekeeper" },
+  { letter: "M", name: "c-Myc", desc: "Gene expression amplifier" },
+];
+
 export function ActThree() {
   const sectionRef = useRef<HTMLDivElement>(null);
 
@@ -11,41 +18,87 @@ export function ActThree() {
     if (!sectionRef.current) return;
 
     const ctx = gsap.context(() => {
+      const pinDuration = 2200;
+
       ScrollTrigger.create({
         trigger: sectionRef.current,
         start: "top top",
-        end: "+=1800",
+        end: `+=${pinDuration}`,
         pin: true,
         pinSpacing: true,
       });
 
-      const steps = sectionRef.current!.querySelectorAll(".mechanism-step");
-      steps.forEach((step, i) => {
-        gsap.from(step, {
-          opacity: 0,
-          y: 40,
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: `top+=${i * 450} top`,
-            end: `top+=${i * 450 + 300} top`,
-            scrub: true,
-          },
-        });
+      // Master timeline
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: "top top",
+          end: `+=${pinDuration}`,
+          scrub: 1,
+        },
       });
 
-      // Factor pulse animation
-      const factors = sectionRef.current!.querySelectorAll(".factor-badge");
-      factors.forEach((f, i) => {
-        gsap.from(f, {
-          scale: 0,
-          opacity: 0,
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: `top+=${800 + i * 100} top`,
-            end: `top+=${900 + i * 100} top`,
-            scrub: true,
+      // Label + headline
+      const label = sectionRef.current!.querySelector(".act-label");
+      const headline = sectionRef.current!.querySelector(".act-headline");
+      if (label) tl.fromTo(label, { opacity: 0, y: 15 }, { opacity: 1, y: 0, duration: 0.06 }, 0);
+      if (headline) tl.fromTo(headline, { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.08 }, 0.02);
+
+      // Yamanaka intro text
+      const introText = sectionRef.current!.querySelector(".intro-text");
+      if (introText) {
+        tl.fromTo(introText, { opacity: 0, y: 25 }, { opacity: 1, y: 0, duration: 0.08 }, 0.08);
+      }
+
+      // Factor badges — staggered pop-in with overshoot
+      const badges = sectionRef.current!.querySelectorAll(".factor-badge");
+      badges.forEach((badge, i) => {
+        tl.fromTo(
+          badge,
+          { scale: 0, opacity: 0, rotation: -5 },
+          {
+            scale: 1,
+            opacity: 1,
+            rotation: 0,
+            duration: 0.06,
+            ease: "back.out(2.5)",
           },
-        });
+          0.16 + i * 0.04
+        );
+      });
+
+      // Continuous vs pulsed explanation
+      const stepTexts = sectionRef.current!.querySelectorAll(".mech-step");
+      stepTexts.forEach((st, i) => {
+        tl.fromTo(st, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.08 }, 0.36 + i * 0.1);
+      });
+
+      // Pulse timeline visual
+      const pulseViz = sectionRef.current!.querySelector(".pulse-viz");
+      if (pulseViz) {
+        tl.fromTo(pulseViz, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.08 }, 0.56);
+      }
+
+      // Reset vs Reboot cards
+      const compCards = sectionRef.current!.querySelectorAll(".comp-card");
+      compCards.forEach((card, i) => {
+        tl.fromTo(
+          card,
+          { opacity: 0, y: 30, scale: 0.95 },
+          { opacity: 1, y: 0, scale: 1, duration: 0.08 },
+          0.66 + i * 0.06
+        );
+      });
+
+      // Before/after split
+      const splitPanels = sectionRef.current!.querySelectorAll(".split-panel");
+      splitPanels.forEach((panel, i) => {
+        tl.fromTo(
+          panel,
+          { opacity: 0, x: i === 0 ? -30 : 30 },
+          { opacity: 1, x: 0, duration: 0.08 },
+          0.8 + i * 0.04
+        );
       });
     }, sectionRef);
 
@@ -55,93 +108,176 @@ export function ActThree() {
   return (
     <section
       ref={sectionRef}
-      className="relative min-h-[100dvh] bg-[var(--cream-dark)] px-6 py-20 md:px-10"
+      className="relative min-h-[100dvh] overflow-hidden bg-[var(--cream-dark)]"
     >
-      <div className="mx-auto grid max-w-[1400px] gap-12 md:grid-cols-[1fr_1fr] md:items-center md:gap-20">
-        {/* Text */}
-        <div>
-          <span className="mechanism-step mb-4 block font-[family-name:var(--font-jetbrains)] text-xs tracking-widest text-[var(--terracotta)] uppercase">
+      <div className="flex min-h-[100dvh] items-start px-6 py-16 md:items-center md:px-10 md:py-0">
+        <div className="mx-auto w-full max-w-[1400px]">
+          {/* Header */}
+          <span className="act-label mb-4 block font-[family-name:var(--font-jetbrains)] text-[11px] tracking-[0.2em] text-[var(--terracotta)] uppercase opacity-0">
             Act III &mdash; The Mechanism
           </span>
-
-          <h2 className="mechanism-step font-[family-name:var(--font-playfair)] text-4xl leading-[1.15] tracking-tight md:text-5xl">
-            Polishing{" "}
-            <em className="text-[var(--terracotta)]">the disc.</em>
+          <h2 className="act-headline font-[family-name:var(--font-playfair)] text-4xl leading-[1.1] tracking-tight text-[var(--charcoal)] opacity-0 md:text-5xl lg:text-6xl">
+            Polishing <em className="text-[var(--terracotta)]">the disc.</em>
           </h2>
 
-          <p className="mechanism-step mt-6 max-w-[45ch] text-lg leading-relaxed text-[var(--text-secondary)]">
-            In 2006, Shinya Yamanaka discovered four proteins that can reset a
-            cell&apos;s epigenetic state. They&apos;re called the{" "}
-            <strong className="text-[var(--charcoal)]">
-              Yamanaka factors
-            </strong>
-            :
-          </p>
+          <div className="mt-10 grid gap-12 md:grid-cols-[1.2fr_0.8fr] md:gap-16">
+            {/* Left column: text + badges + comparison */}
+            <div>
+              <p className="intro-text max-w-[48ch] text-lg leading-relaxed text-[var(--text-secondary)] opacity-0 md:text-xl">
+                In 2006, <strong className="text-[var(--charcoal)]">Shinya Yamanaka</strong> discovered
+                four proteins that can reset a cell&apos;s epigenetic state.
+                They&apos;re called the <strong className="text-[var(--charcoal)]">Yamanaka factors</strong>:
+              </p>
 
-          {/* Factor badges */}
-          <div className="mechanism-step mt-6 flex flex-wrap gap-3">
-            {[
-              { letter: "O", name: "Oct4", desc: "Master regulator" },
-              { letter: "S", name: "Sox2", desc: "Stem cell maintenance" },
-              { letter: "K", name: "Klf4", desc: "Cell identity" },
-              { letter: "M", name: "c-Myc", desc: "Gene activator" },
-            ].map((factor) => (
-              <div
-                key={factor.letter}
-                className="factor-badge flex items-center gap-3 rounded-lg border border-[var(--muted-light)] bg-[var(--cream)] px-4 py-3"
-              >
-                <span className="flex h-9 w-9 items-center justify-center rounded-full bg-[var(--terracotta)] font-[family-name:var(--font-jetbrains)] text-sm font-bold text-[var(--cream)]">
-                  {factor.letter}
-                </span>
-                <div>
-                  <p className="text-sm font-semibold text-[var(--charcoal)]">
-                    {factor.name}
+              {/* OSKM factor badges */}
+              <div className="mt-8 flex flex-wrap gap-3">
+                {factors.map((factor) => (
+                  <div
+                    key={factor.letter}
+                    className="factor-badge flex items-center gap-3 rounded-xl border border-[var(--muted-light)] bg-[var(--cream)] px-5 py-4 opacity-0 shadow-sm"
+                  >
+                    <span className="flex h-11 w-11 items-center justify-center rounded-full bg-[var(--terracotta)] font-[family-name:var(--font-jetbrains)] text-base font-bold text-[var(--cream)]">
+                      {factor.letter}
+                    </span>
+                    <div>
+                      <p className="font-[family-name:var(--font-jetbrains)] text-sm font-semibold text-[var(--charcoal)]">
+                        {factor.name}
+                      </p>
+                      <p className="text-xs text-[var(--muted)]">{factor.desc}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Explanation steps */}
+              <p className="mech-step mt-10 max-w-[48ch] text-lg leading-relaxed text-[var(--text-secondary)] opacity-0 md:text-xl">
+                Applied <strong className="text-[var(--charcoal)]">continuously</strong>, these factors
+                turn an adult cell all the way back into a stem cell &mdash; a{" "}
+                <em>factory reset</em> that erases its identity.
+              </p>
+
+              <p className="mech-step mt-6 max-w-[48ch] text-lg leading-relaxed text-[var(--text-secondary)] opacity-0 md:text-xl">
+                But applied in <strong className="text-[var(--charcoal)]">short, controlled pulses</strong>?
+                The cell gets <strong className="text-[var(--terracotta)]">younger</strong> while
+                keeping its identity intact. A skin cell stays a skin cell.
+                A neuron stays a neuron.{" "}
+                <em className="text-[var(--terracotta)]">Just younger.</em>
+              </p>
+
+              {/* Pulsed expression timeline visual */}
+              <div className="pulse-viz mt-8 space-y-3 opacity-0">
+                <p className="font-[family-name:var(--font-jetbrains)] text-[10px] tracking-[0.15em] text-[var(--muted)] uppercase">
+                  Expression Pattern
+                </p>
+
+                {/* Continuous — solid bar */}
+                <div className="flex items-center gap-3">
+                  <span className="w-24 shrink-0 text-right font-[family-name:var(--font-jetbrains)] text-xs text-[var(--muted)] line-through">
+                    Continuous
+                  </span>
+                  <div className="relative h-4 flex-1 rounded-sm bg-[var(--terracotta)] opacity-20">
+                    <div className="absolute -right-2 -top-4 font-[family-name:var(--font-jetbrains)] text-[9px] text-[var(--muted)]">
+                      Identity loss
+                    </div>
+                  </div>
+                </div>
+
+                {/* Pulsed — blocks with gaps */}
+                <div className="flex items-center gap-3">
+                  <span className="w-24 shrink-0 text-right font-[family-name:var(--font-jetbrains)] text-xs font-semibold text-[var(--terracotta)]">
+                    Pulsed
+                  </span>
+                  <div className="flex flex-1 gap-1.5">
+                    {Array.from({ length: 8 }).map((_, i) => (
+                      <div
+                        key={i}
+                        className="h-4 flex-1 rounded-sm bg-[var(--terracotta)]"
+                        style={{ opacity: i % 2 === 0 ? 0.85 : 0.08 }}
+                      />
+                    ))}
+                    <div className="absolute -right-2 -top-4 font-[family-name:var(--font-jetbrains)] text-[9px] text-[var(--terracotta)]" />
+                  </div>
+                </div>
+
+                <p className="ml-28 font-[family-name:var(--font-jetbrains)] text-[9px] text-[var(--terracotta)]">
+                  Rejuvenation without identity loss
+                </p>
+              </div>
+
+              {/* Factory Reset vs Reboot — larger, more prominent */}
+              <div className="mt-10 grid grid-cols-2 gap-4">
+                <div className="comp-card rounded-xl border border-[var(--muted-light)] bg-[var(--cream)] p-6 opacity-0 opacity-60">
+                  <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-lg bg-[var(--muted)] opacity-20">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                      <path d="M4 10h12M10 4v12" stroke="var(--muted)" strokeWidth="1.5" strokeLinecap="round" />
+                    </svg>
+                  </div>
+                  <p className="font-[family-name:var(--font-playfair)] text-lg font-semibold text-[var(--muted)] line-through">
+                    Factory Reset
                   </p>
-                  <p className="text-xs text-[var(--muted)]">{factor.desc}</p>
+                  <p className="mt-2 text-sm leading-relaxed text-[var(--muted)]">
+                    Erases cell identity completely. The cell forgets
+                    what it was.
+                  </p>
+                </div>
+
+                <div className="comp-card rounded-xl border-2 border-[var(--terracotta)]/40 bg-[var(--cream)] p-6 opacity-0">
+                  <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-lg bg-[var(--terracotta)] opacity-10">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                      <path d="M10 4a6 6 0 11-6 6" stroke="var(--terracotta)" strokeWidth="1.5" strokeLinecap="round" />
+                      <path d="M4 6V10H8" stroke="var(--terracotta)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                  </div>
+                  <p className="font-[family-name:var(--font-playfair)] text-lg font-semibold text-[var(--terracotta)]">
+                    Reboot
+                  </p>
+                  <p className="mt-2 text-sm leading-relaxed text-[var(--text-secondary)]">
+                    Keeps identity. Clears epigenetic errors. The cell
+                    remembers <em>what</em> it is, but forgets <em>how old</em>.
+                  </p>
                 </div>
               </div>
-            ))}
-          </div>
-
-          <p className="mechanism-step mt-8 max-w-[45ch] text-lg leading-relaxed text-[var(--text-secondary)]">
-            Applied continuously, these factors turn an adult cell all the way
-            back into a stem cell &mdash; a{" "}
-            <strong className="text-[var(--charcoal)]">factory reset</strong>{" "}
-            that erases its identity.
-          </p>
-
-          <p className="mechanism-step mt-6 max-w-[45ch] text-lg leading-relaxed text-[var(--text-secondary)]">
-            But applied in short, controlled pulses? The cell gets{" "}
-            <strong className="text-[var(--charcoal)]">younger</strong> while
-            keeping its identity intact. A skin cell stays a skin cell. A neuron
-            stays a neuron.{" "}
-            <em className="text-[var(--terracotta)]">Just younger.</em>
-          </p>
-
-          {/* Reboot vs Reset visual */}
-          <div className="mechanism-step mt-8 flex gap-4">
-            <div className="rounded-lg border border-[var(--muted-light)] bg-[var(--cream)] px-5 py-4 opacity-40">
-              <p className="text-sm font-semibold text-[var(--muted)] line-through">
-                Factory Reset
-              </p>
-              <p className="mt-1 text-xs text-[var(--muted)]">
-                Erases identity
-              </p>
             </div>
-            <div className="rounded-lg border-2 border-[var(--terracotta)] bg-[var(--cream)] px-5 py-4">
-              <p className="text-sm font-semibold text-[var(--terracotta)]">
-                Reboot
-              </p>
-              <p className="mt-1 text-xs text-[var(--text-secondary)]">
-                Keeps identity, clears errors
-              </p>
+
+            {/* Right column: Before/After split + DNA */}
+            <div className="flex flex-col items-center justify-center gap-6">
+              {/* Before / After split */}
+              <div className="grid w-full grid-cols-2 gap-3">
+                <div className="split-panel rounded-xl border border-[var(--muted-light)] bg-[var(--cream)] p-4 text-center opacity-0">
+                  <div className="mx-auto mb-3 h-16 w-16 rounded-full border-2 border-[var(--muted-light)] bg-[var(--cream-dark)]">
+                    <div className="flex h-full items-center justify-center">
+                      <span className="text-2xl opacity-40">&#x1f9ec;</span>
+                    </div>
+                  </div>
+                  <p className="font-[family-name:var(--font-jetbrains)] text-[10px] tracking-widest text-[var(--muted)] uppercase">
+                    Before
+                  </p>
+                  <p className="mt-1 text-xs text-[var(--muted)]">
+                    Aged cell
+                  </p>
+                </div>
+
+                <div className="split-panel rounded-xl border-2 border-[var(--terracotta)]/30 bg-[var(--cream)] p-4 text-center opacity-0">
+                  <div className="mx-auto mb-3 h-16 w-16 rounded-full border-2 border-[var(--terracotta)]/30 bg-[var(--cream)]">
+                    <div className="flex h-full items-center justify-center">
+                      <span className="text-2xl">&#x1f9ec;</span>
+                    </div>
+                  </div>
+                  <p className="font-[family-name:var(--font-jetbrains)] text-[10px] tracking-widest text-[var(--terracotta)] uppercase">
+                    After
+                  </p>
+                  <p className="mt-1 text-xs text-[var(--terracotta)]">
+                    Rejuvenated
+                  </p>
+                </div>
+              </div>
+
+              {/* DNA illustration */}
+              <div className="h-[35vh] w-full md:h-[45vh]">
+                <DnaStrand mode="rejuvenation" />
+              </div>
             </div>
           </div>
-        </div>
-
-        {/* Rejuvenation illustration */}
-        <div className="flex items-center justify-center">
-          <DnaStrand mode="rejuvenation" />
         </div>
       </div>
     </section>

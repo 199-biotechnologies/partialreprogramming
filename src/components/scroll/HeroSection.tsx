@@ -7,61 +7,155 @@ import { Waveform } from "@/components/svg/Waveform";
 export function HeroSection() {
   const sectionRef = useRef<HTMLDivElement>(null);
   const titleRef = useRef<HTMLHeadingElement>(null);
+  const titleLine1Ref = useRef<HTMLSpanElement>(null);
+  const titleLine2Ref = useRef<HTMLSpanElement>(null);
   const subtitleRef = useRef<HTMLParagraphElement>(null);
   const waveRef = useRef<HTMLDivElement>(null);
   const fadeTextRef = useRef<HTMLParagraphElement>(null);
+  const ruleRef = useRef<HTMLDivElement>(null);
+  const scrollIndicatorRef = useRef<HTMLDivElement>(null);
+  const gradientRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (!sectionRef.current) return;
 
     const ctx = gsap.context(() => {
-      // Title entrance
-      gsap.from(titleRef.current, {
-        y: 60,
-        opacity: 0,
-        duration: 1.4,
-        ease: "power3.out",
-        delay: 0.3,
-      });
+      // Animated gradient background shift on scroll
+      if (gradientRef.current) {
+        gsap.to(gradientRef.current, {
+          backgroundPosition: "100% 100%",
+          ease: "none",
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: "top top",
+            end: "bottom top",
+            scrub: 1,
+          },
+        });
+      }
 
-      gsap.from(subtitleRef.current, {
-        y: 40,
-        opacity: 0,
-        duration: 1.2,
-        ease: "power3.out",
-        delay: 0.6,
-      });
+      // Title Line 1 — clip-path reveal from left
+      if (titleLine1Ref.current) {
+        gsap.fromTo(
+          titleLine1Ref.current,
+          { clipPath: "inset(0 100% 0 0)" },
+          {
+            clipPath: "inset(0 0% 0 0)",
+            duration: 1.6,
+            ease: "power3.out",
+            delay: 0.3,
+          }
+        );
+      }
 
-      gsap.from(waveRef.current, {
-        y: 30,
-        opacity: 0,
-        duration: 1.2,
-        ease: "power3.out",
-        delay: 0.9,
-      });
+      // Title Line 2 — clip-path reveal from left, staggered
+      if (titleLine2Ref.current) {
+        gsap.fromTo(
+          titleLine2Ref.current,
+          { clipPath: "inset(0 100% 0 0)" },
+          {
+            clipPath: "inset(0 0% 0 0)",
+            duration: 1.6,
+            ease: "power3.out",
+            delay: 0.7,
+          }
+        );
+      }
 
-      // Fade text appears as you scroll
-      gsap.from(fadeTextRef.current, {
-        opacity: 0,
-        y: 20,
-        scrollTrigger: {
-          trigger: fadeTextRef.current,
-          start: "top 80%",
-          toggleActions: "play none none none",
-        },
-        duration: 1,
-        ease: "power2.out",
-      });
+      // Subtitle — fade up
+      gsap.fromTo(
+        subtitleRef.current,
+        { y: 50, opacity: 0 },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 1.2,
+          ease: "power3.out",
+          delay: 1.1,
+        }
+      );
 
-      // Parallax on title
+      // Decorative rule — width expansion
+      if (ruleRef.current) {
+        gsap.fromTo(
+          ruleRef.current,
+          { scaleX: 0 },
+          {
+            scaleX: 1,
+            duration: 1.4,
+            ease: "power3.out",
+            delay: 1.4,
+          }
+        );
+      }
+
+      // Waveform — full width entrance with fade
+      gsap.fromTo(
+        waveRef.current,
+        { opacity: 0, scale: 0.95 },
+        {
+          opacity: 1,
+          scale: 1,
+          duration: 1.4,
+          ease: "power3.out",
+          delay: 1.0,
+        }
+      );
+
+      // Scroll indicator — continuous bounce
+      if (scrollIndicatorRef.current) {
+        gsap.fromTo(
+          scrollIndicatorRef.current,
+          { opacity: 0 },
+          { opacity: 1, duration: 1, delay: 2.0 }
+        );
+        gsap.to(scrollIndicatorRef.current.querySelector(".bounce-line"), {
+          y: 8,
+          duration: 1.2,
+          ease: "power2.inOut",
+          repeat: -1,
+          yoyo: true,
+        });
+      }
+
+      // "But over time..." text appears as you scroll
+      gsap.fromTo(
+        fadeTextRef.current,
+        { opacity: 0, y: 40 },
+        {
+          opacity: 1,
+          y: 0,
+          scrollTrigger: {
+            trigger: fadeTextRef.current,
+            start: "top 85%",
+            end: "top 65%",
+            scrub: 1,
+          },
+          ease: "power2.out",
+        }
+      );
+
+      // Parallax on title — drifts upward as you scroll away
       gsap.to(titleRef.current, {
-        y: -80,
+        y: -120,
         ease: "none",
         scrollTrigger: {
           trigger: sectionRef.current,
           start: "top top",
           end: "bottom top",
-          scrub: true,
+          scrub: 1,
+        },
+      });
+
+      // Waveform parallax — moves slower than title for depth
+      gsap.to(waveRef.current, {
+        y: -40,
+        ease: "none",
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: "top top",
+          end: "bottom top",
+          scrub: 1,
         },
       });
     }, sectionRef);
@@ -72,49 +166,78 @@ export function HeroSection() {
   return (
     <section
       ref={sectionRef}
-      className="relative min-h-[100dvh] overflow-hidden px-6 pt-32 pb-20 md:px-10"
+      className="relative min-h-[100dvh] overflow-hidden"
     >
-      <div className="mx-auto max-w-[1400px]">
-        <div className="grid gap-8 md:grid-cols-[1.2fr_1fr] md:items-center md:gap-16">
-          <div>
-            <h1
-              ref={titleRef}
-              className="font-[family-name:var(--font-playfair)] text-5xl leading-[1.1] tracking-tighter text-[var(--charcoal)] md:text-7xl lg:text-8xl"
-            >
-              Your body is
-              <br />
-              <em className="text-[var(--terracotta)]">playing a song.</em>
+      {/* Animated gradient background */}
+      <div
+        ref={gradientRef}
+        className="pointer-events-none absolute inset-0"
+        style={{
+          background:
+            "linear-gradient(135deg, var(--cream) 0%, var(--cream-dark) 40%, var(--cream) 70%, var(--cream-dark) 100%)",
+          backgroundSize: "400% 400%",
+          backgroundPosition: "0% 0%",
+        }}
+      />
+
+      {/* Content */}
+      <div className="relative z-10 px-6 pt-32 pb-20 md:px-10">
+        <div className="mx-auto max-w-[1400px]">
+          {/* Title block */}
+          <div ref={titleRef}>
+            <h1 className="font-[family-name:var(--font-playfair)] text-6xl leading-[1.05] tracking-tighter text-[var(--charcoal)] md:text-8xl lg:text-9xl">
+              <span ref={titleLine1Ref} className="block">
+                Your body is
+              </span>
+              <span ref={titleLine2Ref} className="block">
+                <em className="text-[var(--terracotta)]">playing a song.</em>
+              </span>
             </h1>
+
             <p
               ref={subtitleRef}
-              className="mt-6 max-w-[50ch] text-lg leading-relaxed text-[var(--text-secondary)] md:text-xl"
+              className="mt-8 max-w-[48ch] text-lg leading-relaxed text-[var(--text-secondary)] opacity-0 md:text-xl lg:text-2xl"
             >
-              Every one of your 37 trillion cells carries the complete
-              instructions for life. A melody written in DNA, performed by the
-              machinery of the cell.
+              Every one of your <strong className="text-[var(--charcoal)]">37 trillion cells</strong> carries
+              the complete instructions for life. A melody written in DNA,
+              performed by the machinery of the cell.
             </p>
           </div>
-          <div ref={waveRef}>
-            <Waveform />
-          </div>
+
+          {/* Decorative horizontal rule */}
+          <div
+            ref={ruleRef}
+            className="my-16 h-px w-full origin-left bg-[var(--muted)] opacity-30 md:my-24"
+          />
+
+          {/* Full-width waveform — breaks out of the container */}
         </div>
 
-        <p
-          ref={fadeTextRef}
-          className="mx-auto mt-32 max-w-[55ch] text-center font-[family-name:var(--font-playfair)] text-2xl leading-snug text-[var(--text-secondary)] md:mt-48 md:text-3xl"
-        >
-          But over time, the music starts to{" "}
-          <span className="text-[var(--terracotta)]">skip.</span>
-        </p>
+        <div ref={waveRef} className="w-full opacity-0">
+          <Waveform />
+        </div>
+
+        <div className="mx-auto max-w-[1400px]">
+          <p
+            ref={fadeTextRef}
+            className="mx-auto mt-24 max-w-[55ch] text-center font-[family-name:var(--font-playfair)] text-3xl leading-snug text-[var(--text-secondary)] md:mt-32 md:text-4xl lg:text-5xl"
+          >
+            But over time, the music starts to{" "}
+            <span className="text-[var(--terracotta)]">skip.</span>
+          </p>
+        </div>
       </div>
 
       {/* Scroll indicator */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2">
-        <div className="flex flex-col items-center gap-2">
-          <span className="text-xs tracking-widest text-[var(--muted)] uppercase">
-            Scroll
+      <div
+        ref={scrollIndicatorRef}
+        className="absolute bottom-10 left-1/2 -translate-x-1/2 opacity-0"
+      >
+        <div className="flex flex-col items-center gap-3">
+          <span className="font-[family-name:var(--font-jetbrains)] text-[10px] tracking-[0.2em] text-[var(--muted)] uppercase">
+            Scroll to begin
           </span>
-          <div className="h-8 w-px bg-[var(--muted)] animate-pulse" />
+          <div className="bounce-line h-10 w-px bg-[var(--terracotta)] opacity-50" />
         </div>
       </div>
     </section>
