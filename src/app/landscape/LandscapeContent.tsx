@@ -2,186 +2,68 @@
 
 import { ScrollReveal } from "@/components/motion/ScrollReveal";
 import { useRef, useEffect } from "react";
-import { gsap, ScrollTrigger } from "@/lib/gsap";
+import { gsap } from "@/lib/gsap";
+import {
+  companies as rawCompanies,
+  clinicalTrials,
+  academicLabs,
+  longevityFunds,
+  marketStats,
+} from "@/lib/landscape-data";
+import { people } from "@/lib/people";
 
-/* ─── Data ──────────────────────────────────────────────── */
+/* ─── Helpers ─────────────────────────────────────────── */
 
-const companies = [
-  {
-    name: "Altos Labs",
-    tagline: "The most-funded bet on biological rejuvenation",
-    mission: "Restoring cell health and resilience through rejuvenation biology",
-    funding: "$3B+ raised",
-    focus: "Whole-organ rejuvenation",
-  },
-  {
-    name: "Retro Biosciences",
-    tagline: "Backed by Sam Altman to add a decade to human lifespan",
-    mission: "Adding 10 healthy years to human lifespan",
-    funding: "$180M raised",
-    focus: "Autophagy, reprogramming, plasma",
-  },
-  {
-    name: "NewLimit",
-    tagline: "Co-founded by Brian Armstrong to crack epigenetic aging",
-    mission: "Radically extending the human healthspan",
-    funding: "$130M+ raised (Series B, $1.6B valuation)",
-    focus: "Epigenetic reprogramming for liver disease",
-  },
-  {
-    name: "Turn Biotechnologies",
-    tagline: "Pioneering mRNA-based rejuvenation therapies",
-    mission: "Restoring youthful function through mRNA-based reprogramming",
-    funding: "$60M+ raised",
-    focus: "Tissue-specific rejuvenation via ERA platform",
-  },
-  {
-    name: "Life Biosciences",
-    tagline: "First to take reprogramming into an FDA-cleared human trial",
-    mission: "Developing medicines that target the biology of aging",
-    funding: "$100M+ raised",
-    focus: "First FDA-cleared reprogramming trial (ER-100)",
-  },
-  {
-    name: "Calico (Alphabet)",
-    tagline: "Google's long-term bet on understanding lifespan",
-    mission: "Understanding the biology that controls lifespan",
-    funding: "Alphabet-backed",
-    focus: "Fundamental aging research",
-  },
-  {
-    name: "Shift Bioscience",
-    tagline: "AI-driven discovery of optimal reprogramming targets",
-    mission: "Using machine learning to map the epigenetic landscape of aging and find safe reprogramming routes",
-    funding: "$12M+ raised",
-    focus: "Computational aging biology & epigenetic targets",
-  },
-  {
-    name: "Rejuvenate Bio",
-    tagline: "Gene therapy to reverse aging in companion animals first",
-    mission: "Developing gene therapies that reverse biological age, starting with dogs",
-    funding: "$15M+ raised",
-    focus: "Combinatorial gene therapy for age reversal",
-  },
-  {
-    name: "YouthBio Therapeutics",
-    tagline: "Gene therapy approaching FDA trials for Alzheimer's",
-    mission: "Developing gene therapies targeting aging-related neurodegeneration",
-    funding: "$10M+ raised",
-    focus: "AAV-delivered OSK for Alzheimer's (YB002)",
-  },
-  {
-    name: "Conception Biosciences",
-    tagline: "Extending human fertility through ovarian rejuvenation",
-    mission: "Making human eggs from stem cells to transform reproductive aging",
-    funding: "$80M+ raised",
-    focus: "In vitro gametogenesis & reproductive longevity",
-  },
-];
+/** Parse a funding string like "$5.56B", "$325M+", "Undisclosed" into a numeric value for sorting. */
+function parseFunding(s: string): number {
+  const cleaned = s.replace(/[^0-9.BMKbmk]/g, "");
+  const match = cleaned.match(/^([\d.]+)\s*([BMKbmk]?)/);
+  if (!match) return 0;
+  const num = parseFloat(match[1]);
+  if (isNaN(num)) return 0;
+  const unit = match[2].toUpperCase();
+  if (unit === "B") return num * 1_000_000_000;
+  if (unit === "M") return num * 1_000_000;
+  if (unit === "K") return num * 1_000;
+  return num;
+}
 
-const clinicalTrials = [
-  {
-    trial: "ER-100",
-    company: "Life Biosciences",
-    target: "Glaucoma (vision loss)",
-    phase: "Phase I",
-    status: "Enrolling",
-  },
-  {
-    trial: "ALT-100",
-    company: "Altos Labs",
-    target: "Liver fibrosis",
-    phase: "Pre-clinical",
-    status: "IND-enabling",
-  },
-  {
-    trial: "NL-201",
-    company: "NewLimit",
-    target: "Liver disease",
-    phase: "Pre-clinical",
-    status: "Lead optimization",
-  },
-  {
-    trial: "ERA-01",
-    company: "Turn Biotechnologies",
-    target: "Osteoarthritis (joint)",
-    phase: "Pre-clinical",
-    status: "Animal studies",
-  },
-  {
-    trial: "RB-001",
-    company: "Retro Biosciences",
-    target: "Undisclosed",
-    phase: "Pre-clinical",
-    status: "Discovery",
-  },
-  {
-    trial: "YB-002",
-    company: "YouthBio",
-    target: "Alzheimer's disease",
-    phase: "Pre-clinical",
-    status: "FDA INTERACT complete",
-  },
-  {
-    trial: "CDNF-201",
-    company: "Calico / AbbVie",
-    target: "Neurodegeneration",
-    phase: "Phase II",
-    status: "Ongoing",
-  },
-];
+const companies = [...rawCompanies].sort(
+  (a, b) => parseFunding(b.totalFunding) - parseFunding(a.totalFunding)
+);
 
-const figures = [
-  {
-    name: "Shinya Yamanaka",
-    role: "Discoverer of reprogramming factors",
-    affiliation: "Kyoto University / Altos Labs",
-  },
-  {
-    name: "David Sinclair",
-    role: "Pioneer of epigenetic age reversal",
-    affiliation: "Harvard Medical School",
-  },
-  {
-    name: "Juan Carlos Izpisua Belmonte",
-    role: "First to show in vivo partial reprogramming",
-    affiliation: "Salk Institute / Altos Labs",
-  },
-  {
-    name: "Vittorio Sebastiano",
-    role: "Co-founder of Turn Bio, mRNA reprogramming",
-    affiliation: "Stanford University",
-  },
-  {
-    name: "Steve Horvath",
-    role: "Inventor of the epigenetic clock",
-    affiliation: "Altos Labs (prev. UCLA)",
-  },
-  {
-    name: "Brian Armstrong",
-    role: "Co-founder of NewLimit, Coinbase CEO",
-    affiliation: "NewLimit",
-  },
-  {
-    name: "Sam Altman",
-    role: "Lead backer of Retro Biosciences ($180M)",
-    affiliation: "Retro Biosciences (investor)",
-  },
-];
+/** Group people by category. */
+const categoryLabels: Record<string, string> = {
+  pioneer: "Pioneers",
+  researcher: "Researchers",
+  industry: "Industry Leaders",
+  "investor-founder": "Investors & Founders",
+};
+const categoryOrder = ["pioneer", "researcher", "industry", "investor-founder"];
+const groupedPeople = categoryOrder
+  .map((cat) => ({
+    category: cat,
+    label: categoryLabels[cat],
+    members: people.filter((p) => p.category === cat),
+  }))
+  .filter((g) => g.members.length > 0);
 
-/* ─── Phase badge colors ───────────────────────────────── */
+/* ─── Phase badge colors ─────────────────────────────── */
 
 function phaseBadge(phase: string) {
-  if (phase === "Pre-clinical")
+  const p = phase.toLowerCase();
+  if (p.includes("pre-ind") || p.includes("preclinical") || p.includes("pre-clinical"))
     return "bg-[var(--muted)]/20 text-[var(--muted)]";
-  if (phase === "Phase I")
+  if (p.includes("phase 1") || p.includes("phase i"))
     return "bg-[var(--terracotta)]/15 text-[var(--terracotta)]";
-  if (phase === "Phase II")
+  if (p.includes("phase 2") || p.includes("phase ii"))
+    return "bg-[var(--terracotta-dark)]/20 text-[var(--terracotta-dark)]";
+  if (p.includes("pivotal"))
     return "bg-[var(--terracotta-dark)]/20 text-[var(--terracotta-dark)]";
   return "bg-[var(--muted-light)] text-[var(--text-secondary)]";
 }
 
-/* ─── Component ───────────────────────────────────────── */
+/* ─── Component ──────────────────────────────────────── */
 
 export default function LandscapeContent() {
   const heroLineRef = useRef<HTMLDivElement>(null);
@@ -226,60 +108,37 @@ export default function LandscapeContent() {
         </div>
       </section>
 
-      {/* ── Funding Callout ───────────────────────────────── */}
+      {/* ── Market Stats ─────────────────────────────────── */}
       <section className="bg-[var(--cream-dark)] px-6 py-16 md:px-10">
         <div className="mx-auto max-w-[1400px]">
           <ScrollReveal variant="scale-in">
             <div className="flex flex-col items-center gap-2 text-center">
               <span className="font-[family-name:var(--font-jetbrains)] text-xs tracking-widest text-[var(--muted)] uppercase">
-                Total capital deployed
+                Total longevity sector investment (2024)
               </span>
               <span className="font-[family-name:var(--font-playfair)] text-5xl tracking-tight text-[var(--charcoal)] md:text-7xl">
-                $5B+
+                $8.49B
               </span>
               <p className="mt-2 max-w-[50ch] text-sm leading-relaxed text-[var(--text-secondary)]">
-                Since 2021, over five billion dollars has poured into
-                reprogramming and longevity biotech&nbsp;&mdash; more than the entire
-                preceding decade of aging research funding&nbsp;combined.
+                Across 331 deals in 2024 alone&nbsp;&mdash; a 220% increase from
+                2023. Cellular reprogramming is the most capital-intensive
+                longevity domain.
               </p>
             </div>
           </ScrollReveal>
-        </div>
-      </section>
 
-      {/* ── Companies ─────────────────────────────────────── */}
-      <section className="bg-[var(--cream)] px-6 py-20 md:px-10">
-        <div className="mx-auto max-w-[1400px]">
-          <ScrollReveal>
-            <h2 className="font-[family-name:var(--font-playfair)] text-3xl tracking-tight md:text-4xl">
-              Companies
-            </h2>
-            <p className="mt-3 max-w-[50ch] text-sm text-[var(--text-secondary)]">
-              From stealth-mode startups to Alphabet subsidiaries, the field is
-              growing fast.
-            </p>
-          </ScrollReveal>
-
-          <div className="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-            {companies.map((c, i) => (
-              <ScrollReveal key={c.name} delay={i * 0.04}>
-                <div className="group h-full cursor-default rounded-lg border border-[var(--muted-light)] bg-[var(--cream)] p-8 transition-all duration-300 hover:-translate-y-0.5 hover:border-l-[2px] hover:border-l-[var(--terracotta)] hover:shadow-[0_4px_24px_rgba(196,93,62,0.07)]">
-                  <div className="flex items-start justify-between gap-4">
-                    <h3 className="font-[family-name:var(--font-playfair)] text-lg text-[var(--charcoal)]">
-                      {c.name}
-                    </h3>
-                    <span className="shrink-0 font-[family-name:var(--font-jetbrains)] text-[11px] text-[var(--muted)]">
-                      {c.funding}
-                    </span>
-                  </div>
-                  <p className="mt-1 text-sm italic text-[var(--text-secondary)]">
-                    {c.tagline}
+          <div className="mx-auto mt-10 grid max-w-[900px] gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {marketStats.slice(2).map((s, i) => (
+              <ScrollReveal key={s.label} delay={i * 0.05}>
+                <div className="rounded-lg border border-[var(--muted-light)] bg-[var(--cream)] p-5 text-center">
+                  <p className="font-[family-name:var(--font-jetbrains)] text-xs text-[var(--muted)] uppercase">
+                    {s.label}
                   </p>
-                  <p className="mt-3 text-sm leading-relaxed text-[var(--text-secondary)]">
-                    {c.mission}
+                  <p className="mt-2 font-[family-name:var(--font-playfair)] text-lg text-[var(--charcoal)]">
+                    {s.value}
                   </p>
-                  <p className="mt-4 font-[family-name:var(--font-jetbrains)] text-xs text-[var(--terracotta)]">
-                    {c.focus}
+                  <p className="mt-1 font-[family-name:var(--font-jetbrains)] text-[10px] text-[var(--muted)]">
+                    {s.source} ({s.year})
                   </p>
                 </div>
               </ScrollReveal>
@@ -288,7 +147,87 @@ export default function LandscapeContent() {
         </div>
       </section>
 
-      {/* ── Clinical Trials ───────────────────────────────── */}
+      {/* ── Companies ────────────────────────────────────── */}
+      <section className="bg-[var(--cream)] px-6 py-20 md:px-10">
+        <div className="mx-auto max-w-[1400px]">
+          <ScrollReveal>
+            <h2 className="font-[family-name:var(--font-playfair)] text-3xl tracking-tight md:text-4xl">
+              Companies
+            </h2>
+            <p className="mt-3 max-w-[50ch] text-sm text-[var(--text-secondary)]">
+              {companies.length} companies driving partial reprogramming and
+              cellular rejuvenation, sorted by total funding.
+            </p>
+          </ScrollReveal>
+
+          <div className="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+            {companies.map((c, i) => {
+              const isInactive =
+                c.status === "acquired" || c.status === "merged";
+              return (
+                <ScrollReveal key={c.name} delay={i * 0.04}>
+                  <div
+                    className={`group h-full cursor-default rounded-lg border border-[var(--muted-light)] bg-[var(--cream)] p-8 transition-all duration-300 hover:-translate-y-0.5 hover:border-l-[2px] hover:border-l-[var(--terracotta)] hover:shadow-[0_4px_24px_rgba(196,93,62,0.07)] ${
+                      isInactive ? "opacity-60" : ""
+                    }`}
+                  >
+                    <div className="flex items-start justify-between gap-4">
+                      <h3 className="font-[family-name:var(--font-playfair)] text-lg text-[var(--charcoal)]">
+                        {c.name}
+                      </h3>
+                      <span className="shrink-0 font-[family-name:var(--font-jetbrains)] text-[11px] text-[var(--muted)]">
+                        {c.totalFunding}
+                      </span>
+                    </div>
+
+                    {isInactive && (
+                      <p className="mt-1 font-[family-name:var(--font-jetbrains)] text-[10px] font-medium tracking-wider text-[var(--terracotta)] uppercase">
+                        {c.status === "acquired"
+                          ? `Acquired`
+                          : `Merged`}
+                      </p>
+                    )}
+
+                    <p className="mt-2 text-sm leading-relaxed text-[var(--text-secondary)]">
+                      {c.mission}
+                    </p>
+
+                    <p className="mt-3 text-xs leading-relaxed text-[var(--text-secondary)]">
+                      {c.approach}
+                    </p>
+
+                    <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-1">
+                      <span className="font-[family-name:var(--font-jetbrains)] text-[11px] text-[var(--muted)]">
+                        {c.hq}
+                      </span>
+                      <span className="font-[family-name:var(--font-jetbrains)] text-[11px] text-[var(--muted)]">
+                        Est. {c.founded}
+                      </span>
+                    </div>
+
+                    <p className="mt-3 font-[family-name:var(--font-jetbrains)] text-xs leading-relaxed text-[var(--terracotta)]">
+                      {c.pipelineStatus}
+                    </p>
+
+                    {c.website && c.website !== "N/A (stealth)" && (
+                      <a
+                        href={c.website}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="mt-3 inline-block font-[family-name:var(--font-jetbrains)] text-[11px] text-[var(--muted)] underline decoration-[var(--muted-light)] underline-offset-2 transition-colors hover:text-[var(--terracotta)]"
+                      >
+                        {c.website.replace(/^https?:\/\/(www\.)?/, "")}
+                      </a>
+                    )}
+                  </div>
+                </ScrollReveal>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* ── Clinical Trials ──────────────────────────────── */}
       <section className="bg-[var(--cream-dark)] px-6 py-20 md:px-10">
         <div className="mx-auto max-w-[1400px]">
           <ScrollReveal>
@@ -303,20 +242,23 @@ export default function LandscapeContent() {
 
           <ScrollReveal delay={0.1}>
             <div className="mt-10 overflow-x-auto">
-              <table className="w-full min-w-[700px] text-left">
+              <table className="w-full min-w-[800px] text-left">
                 <thead>
                   <tr className="border-b border-[var(--muted-light)]">
                     <th className="pb-3 pr-6 font-[family-name:var(--font-jetbrains)] text-[11px] font-normal tracking-widest text-[var(--muted)] uppercase">
                       Trial
                     </th>
                     <th className="pb-3 pr-6 font-[family-name:var(--font-jetbrains)] text-[11px] font-normal tracking-widest text-[var(--muted)] uppercase">
-                      Company
+                      Sponsor
                     </th>
                     <th className="pb-3 pr-6 font-[family-name:var(--font-jetbrains)] text-[11px] font-normal tracking-widest text-[var(--muted)] uppercase">
-                      Target
+                      Indication
                     </th>
                     <th className="pb-3 pr-6 font-[family-name:var(--font-jetbrains)] text-[11px] font-normal tracking-widest text-[var(--muted)] uppercase">
                       Phase
+                    </th>
+                    <th className="pb-3 pr-6 font-[family-name:var(--font-jetbrains)] text-[11px] font-normal tracking-widest text-[var(--muted)] uppercase">
+                      CT.gov ID
                     </th>
                     <th className="pb-3 font-[family-name:var(--font-jetbrains)] text-[11px] font-normal tracking-widest text-[var(--muted)] uppercase">
                       Status
@@ -324,34 +266,56 @@ export default function LandscapeContent() {
                   </tr>
                 </thead>
                 <tbody>
-                  {clinicalTrials.map((t, i) => (
-                    <tr
-                      key={t.trial}
-                      className="border-b border-[var(--muted-light)]/50 transition-colors hover:bg-[var(--cream)]/50"
-                    >
-                      <td className="py-4 pr-6 font-[family-name:var(--font-jetbrains)] text-sm font-medium text-[var(--charcoal)]">
-                        {t.trial}
-                      </td>
-                      <td className="py-4 pr-6 text-sm text-[var(--text-secondary)]">
-                        {t.company}
-                      </td>
-                      <td className="py-4 pr-6 text-sm text-[var(--text-secondary)]">
-                        {t.target}
-                      </td>
-                      <td className="py-4 pr-6">
-                        <span
-                          className={`inline-block rounded-full px-3 py-1 font-[family-name:var(--font-jetbrains)] text-[11px] font-medium ${phaseBadge(t.phase)}`}
-                        >
-                          {t.phase}
-                        </span>
-                      </td>
-                      <td className="py-4">
-                        <span className="font-[family-name:var(--font-jetbrains)] text-xs text-[var(--text-secondary)]">
-                          {t.status}
-                        </span>
-                      </td>
-                    </tr>
-                  ))}
+                  {clinicalTrials.map((t) => {
+                    const isNctId = t.nctId.startsWith("NCT");
+                    return (
+                      <tr
+                        key={t.nctId}
+                        className="border-b border-[var(--muted-light)]/50 transition-colors hover:bg-[var(--cream)]/50"
+                      >
+                        <td className="py-4 pr-6 text-sm text-[var(--charcoal)]">
+                          <p className="font-medium">{t.title}</p>
+                          <p className="mt-1 text-xs leading-relaxed text-[var(--muted)]">
+                            {t.intervention}
+                          </p>
+                        </td>
+                        <td className="py-4 pr-6 text-sm text-[var(--text-secondary)]">
+                          {t.sponsor}
+                        </td>
+                        <td className="py-4 pr-6 text-sm text-[var(--text-secondary)]">
+                          {t.indication}
+                        </td>
+                        <td className="py-4 pr-6">
+                          <span
+                            className={`inline-block rounded-full px-3 py-1 font-[family-name:var(--font-jetbrains)] text-[11px] font-medium ${phaseBadge(t.phase)}`}
+                          >
+                            {t.phase}
+                          </span>
+                        </td>
+                        <td className="py-4 pr-6 font-[family-name:var(--font-jetbrains)] text-xs">
+                          {isNctId ? (
+                            <a
+                              href={`https://clinicaltrials.gov/study/${t.nctId}`}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="text-[var(--terracotta)] underline decoration-[var(--terracotta)]/30 underline-offset-2 hover:decoration-[var(--terracotta)]"
+                            >
+                              {t.nctId}
+                            </a>
+                          ) : (
+                            <span className="text-[var(--muted)]">
+                              {t.nctId}
+                            </span>
+                          )}
+                        </td>
+                        <td className="py-4">
+                          <span className="font-[family-name:var(--font-jetbrains)] text-xs text-[var(--text-secondary)]">
+                            {t.status}
+                          </span>
+                        </td>
+                      </tr>
+                    );
+                  })}
                 </tbody>
               </table>
             </div>
@@ -359,7 +323,7 @@ export default function LandscapeContent() {
         </div>
       </section>
 
-      {/* ── Key Figures ────────────────────────────────────── */}
+      {/* ── Key Figures ───────────────────────────────────── */}
       <section className="bg-[var(--cream)] px-6 py-20 md:px-10">
         <div className="mx-auto max-w-[1400px]">
           <ScrollReveal>
@@ -367,22 +331,93 @@ export default function LandscapeContent() {
               Key Figures
             </h2>
             <p className="mt-3 max-w-[50ch] text-sm text-[var(--text-secondary)]">
-              The scientists, founders, and investors shaping the field.
+              The scientists, founders, and investors shaping the field&nbsp;&mdash;{" "}
+              {people.length} individuals across {categoryOrder.length} categories.
             </p>
           </ScrollReveal>
 
-          <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            {figures.map((f, i) => (
-              <ScrollReveal key={f.name} delay={i * 0.04}>
-                <div className="group h-full border-l-2 border-[var(--muted-light)]/30 p-8 transition-all duration-300 hover:border-l-[var(--terracotta)]">
-                  <h3 className="font-[family-name:var(--font-playfair)] text-lg text-[var(--charcoal)]">
-                    {f.name}
-                  </h3>
-                  <p className="mt-2 text-sm leading-relaxed text-[var(--text-secondary)]">
-                    {f.role}
+          {groupedPeople.map((group) => (
+            <div key={group.category} className="mt-12">
+              <ScrollReveal>
+                <h3 className="font-[family-name:var(--font-playfair)] text-xl text-[var(--charcoal)] md:text-2xl">
+                  {group.label}
+                </h3>
+              </ScrollReveal>
+
+              <div className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+                {group.members.map((f, i) => (
+                  <ScrollReveal key={f.id} delay={i * 0.04}>
+                    <div className="group h-full border-l-2 border-[var(--muted-light)]/30 p-6 transition-all duration-300 hover:border-l-[var(--terracotta)]">
+                      <h4 className="font-[family-name:var(--font-playfair)] text-lg text-[var(--charcoal)]">
+                        {f.name}
+                      </h4>
+                      <p className="mt-1 font-[family-name:var(--font-jetbrains)] text-[11px] text-[var(--terracotta)]">
+                        {f.role}
+                      </p>
+                      <p className="mt-2 text-sm leading-relaxed text-[var(--text-secondary)]">
+                        {f.contribution}
+                      </p>
+                      <p className="mt-2 font-[family-name:var(--font-jetbrains)] text-[11px] text-[var(--muted)]">
+                        {f.affiliation}
+                      </p>
+                      {f.links && f.links.length > 0 && (
+                        <div className="mt-3 flex flex-wrap gap-3">
+                          {f.links.map((link) => (
+                            <a
+                              key={link.url}
+                              href={link.url}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="font-[family-name:var(--font-jetbrains)] text-[10px] text-[var(--muted)] underline decoration-[var(--muted-light)] underline-offset-2 transition-colors hover:text-[var(--terracotta)]"
+                            >
+                              {link.label}
+                            </a>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  </ScrollReveal>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* ── Academic Labs ─────────────────────────────────── */}
+      <section className="bg-[var(--cream-dark)] px-6 py-20 md:px-10">
+        <div className="mx-auto max-w-[1400px]">
+          <ScrollReveal>
+            <h2 className="font-[family-name:var(--font-playfair)] text-3xl tracking-tight md:text-4xl">
+              Academic Labs
+            </h2>
+            <p className="mt-3 max-w-[50ch] text-sm text-[var(--text-secondary)]">
+              The research groups producing the foundational science behind
+              cellular reprogramming.
+            </p>
+          </ScrollReveal>
+
+          <div className="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+            {academicLabs.map((lab, i) => (
+              <ScrollReveal key={lab.principalInvestigator} delay={i * 0.05}>
+                <div className="group h-full rounded-lg border border-[var(--muted-light)] bg-[var(--cream)] p-8 transition-all duration-300 hover:-translate-y-0.5 hover:border-l-[2px] hover:border-l-[var(--terracotta)] hover:shadow-[0_4px_24px_rgba(196,93,62,0.07)]">
+                  <p className="font-[family-name:var(--font-jetbrains)] text-[11px] tracking-wider text-[var(--terracotta)] uppercase">
+                    {lab.institution}
                   </p>
-                  <p className="mt-2 font-[family-name:var(--font-jetbrains)] text-xs text-[var(--muted)]">
-                    {f.affiliation}
+                  <h3 className="mt-2 font-[family-name:var(--font-playfair)] text-lg text-[var(--charcoal)]">
+                    {lab.principalInvestigator}
+                  </h3>
+                  <p className="mt-1 font-[family-name:var(--font-jetbrains)] text-[11px] text-[var(--muted)]">
+                    {lab.location}
+                  </p>
+                  <p className="mt-3 text-sm leading-relaxed text-[var(--text-secondary)]">
+                    {lab.focus}
+                  </p>
+                  <p className="mt-3 text-xs leading-relaxed text-[var(--muted)]">
+                    {lab.keyContributions}
+                  </p>
+                  <p className="mt-3 font-[family-name:var(--font-jetbrains)] text-[10px] italic text-[var(--muted)]">
+                    {lab.notableConnection}
                   </p>
                 </div>
               </ScrollReveal>
@@ -391,7 +426,63 @@ export default function LandscapeContent() {
         </div>
       </section>
 
-      {/* ── Closing ────────────────────────────────────────── */}
+      {/* ── Funding Ecosystem ────────────────────────────── */}
+      <section className="bg-[var(--cream)] px-6 py-20 md:px-10">
+        <div className="mx-auto max-w-[1400px]">
+          <ScrollReveal>
+            <h2 className="font-[family-name:var(--font-playfair)] text-3xl tracking-tight md:text-4xl">
+              Funding Ecosystem
+            </h2>
+            <p className="mt-3 max-w-[50ch] text-sm text-[var(--text-secondary)]">
+              {longevityFunds.length} venture funds, foundations, and company
+              builders financing the longevity revolution.
+            </p>
+          </ScrollReveal>
+
+          <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            {longevityFunds.map((fund, i) => (
+              <ScrollReveal key={fund.name} delay={i * 0.03}>
+                <div className="group h-full rounded-lg border border-[var(--muted-light)] bg-[var(--cream)] p-6 transition-all duration-300 hover:border-l-[2px] hover:border-l-[var(--terracotta)]">
+                  <h3 className="font-[family-name:var(--font-playfair)] text-base text-[var(--charcoal)]">
+                    {fund.name}
+                  </h3>
+                  <p className="mt-1 font-[family-name:var(--font-jetbrains)] text-[10px] tracking-wider text-[var(--terracotta)] uppercase">
+                    {fund.type}
+                  </p>
+                  <p className="mt-1 font-[family-name:var(--font-jetbrains)] text-[11px] text-[var(--muted)]">
+                    {fund.aum}
+                  </p>
+                  <p className="mt-3 text-xs leading-relaxed text-[var(--text-secondary)]">
+                    {fund.focus}
+                  </p>
+                  <div className="mt-3 flex flex-wrap gap-1.5">
+                    {fund.notableInvestments.map((inv) => (
+                      <span
+                        key={inv}
+                        className="rounded-full bg-[var(--muted-light)]/50 px-2 py-0.5 font-[family-name:var(--font-jetbrains)] text-[10px] text-[var(--muted)]"
+                      >
+                        {inv}
+                      </span>
+                    ))}
+                  </div>
+                  {fund.website && (
+                    <a
+                      href={fund.website}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="mt-3 inline-block font-[family-name:var(--font-jetbrains)] text-[10px] text-[var(--muted)] underline decoration-[var(--muted-light)] underline-offset-2 transition-colors hover:text-[var(--terracotta)]"
+                    >
+                      {fund.website.replace(/^https?:\/\/(www\.)?/, "")}
+                    </a>
+                  )}
+                </div>
+              </ScrollReveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── Closing ───────────────────────────────────────── */}
       <section className="bg-[var(--cream-dark)] px-6 py-20 md:px-10">
         <div className="mx-auto max-w-[1400px] text-center">
           <ScrollReveal variant="scale-in">

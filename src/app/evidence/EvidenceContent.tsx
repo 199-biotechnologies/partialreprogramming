@@ -1,135 +1,16 @@
 "use client";
 
 import { ScrollReveal } from "@/components/motion/ScrollReveal";
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 import { gsap, ScrollTrigger } from "@/lib/gsap";
+import { papers, categories, eras, type CategoryKey } from "@/lib/papers";
 
-/* ─── Data ──────────────────────────────────────────────── */
-
-const papers = [
-  {
-    year: "2006",
-    title:
-      "Induction of Pluripotent Stem Cells from Mouse Embryonic and Adult Fibroblast Cultures by Defined Factors",
-    authors: "Takahashi & Yamanaka",
-    journal: "Cell",
-    doi: "https://doi.org/10.1016/j.cell.2006.07.024",
-    summary:
-      "The paper that started it all. Four transcription factors can reprogram adult cells back to a stem-cell-like state.",
-    organism: "Mouse",
-  },
-  {
-    year: "2013",
-    title: "The Hallmarks of Aging",
-    authors: "Lopez-Otin et al.",
-    journal: "Cell",
-    doi: "https://doi.org/10.1016/j.cell.2013.05.039",
-    summary:
-      "Defined the nine biological hallmarks of aging, including epigenetic alterations. The conceptual framework that connects reprogramming to aging.",
-    organism: "Review",
-  },
-  {
-    year: "2016",
-    title:
-      "In Vivo Amelioration of Age-Associated Hallmarks by Partial Reprogramming",
-    authors: "Ocampo et al.",
-    journal: "Cell",
-    doi: "https://doi.org/10.1016/j.cell.2016.11.052",
-    summary:
-      "First demonstration that cyclic, short-term expression of Yamanaka factors can reverse age-associated hallmarks in living mice without causing cancer.",
-    organism: "Mouse",
-  },
-  {
-    year: "2019",
-    title:
-      "Transient Reprogramming Reverses Aging in Human Cells via mRNA Delivery",
-    authors: "Sarkar et al.",
-    journal: "Nature Communications",
-    doi: "https://doi.org/10.1038/s41467-020-15174-3",
-    summary:
-      "First demonstration that mRNA-based delivery of reprogramming factors can reverse 5 of 9 hallmarks of aging in human cells without any genetic modification — opening the door to drug-like rejuvenation.",
-    organism: "Human cells",
-  },
-  {
-    year: "2020",
-    title:
-      "Reprogramming to Recover Youthful Epigenetic Information and Restore Vision",
-    authors: "Lu et al.",
-    journal: "Nature",
-    doi: "https://doi.org/10.1038/s41586-020-2975-4",
-    summary:
-      "Sinclair's landmark paper. Three Yamanaka factors (OSK, without c-Myc) restored vision in aged mice by resetting the epigenetic clock in retinal ganglion cells.",
-    organism: "Mouse",
-  },
-  {
-    year: "2021",
-    title:
-      "Multi-omic Rejuvenation of Human Cells by Maturation Phase Transient Reprogramming",
-    authors: "Gill et al.",
-    journal: "eLife",
-    doi: "https://doi.org/10.7554/eLife.71624",
-    summary:
-      "Achieved a stunning 30-year decrease in epigenetic age of human skin cells while fully preserving cell identity and function. The cells looked and behaved decades younger.",
-    organism: "Human cells",
-  },
-  {
-    year: "2022",
-    title:
-      "Multi-tissue DNA Methylation Remodeling at Mitotic-like Genes by Partial Reprogramming",
-    authors: "Browder et al.",
-    journal: "Science",
-    doi: "https://doi.org/10.1126/science.abg4993",
-    summary:
-      "Long-term cyclic partial reprogramming in mice reverses epigenetic age across multiple tissues — skin, kidney, blood — and reduces fibrosis without increasing cancer risk.",
-    organism: "Mouse",
-  },
-  {
-    year: "2023",
-    title: "Chemically Induced Reprogramming to Reverse Cellular Aging",
-    authors: "Yang et al.",
-    journal: "Aging",
-    doi: "https://doi.org/10.18632/aging.204896",
-    summary:
-      "Demonstrated that chemical cocktails (no genetic modification needed) can reverse cellular aging, opening a path to drug-based rejuvenation.",
-    organism: "Human cells",
-  },
-  {
-    year: "2024",
-    title:
-      "Partial Reprogramming Restores Youthful Gene Expression in Non-Human Primates",
-    authors: "Multiple groups",
-    journal: "Nature Aging",
-    doi: "https://doi.org/10.1038/s43587-024-00612-y",
-    summary:
-      "Extended partial reprogramming from rodents to primates, demonstrating safety and epigenetic age reversal in tissues of cynomolgus monkeys.",
-    organism: "Non-human primates",
-  },
-  {
-    year: "2025",
-    title:
-      "Partial Reprogramming Restores Learning and Memory in Aged Mice",
-    authors: "Multiple groups",
-    journal: "Neuron",
-    doi: "https://doi.org/10.1016/j.neuron.2025.01.015",
-    summary:
-      "Partial reprogramming restored cognitive function in aged mice to youthful levels, proving even the aging brain is not beyond reach.",
-    organism: "Mouse",
-  },
-  {
-    year: "2026",
-    title: "First Human Trial of Epigenetic Reprogramming (ER-100)",
-    authors: "Life Biosciences",
-    journal: "FDA Phase I",
-    doi: "https://clinicaltrials.gov",
-    summary:
-      "The first FDA-cleared human trial of epigenetic reprogramming, targeting vision loss from glaucoma. A historic milestone.",
-    organism: "Human",
-  },
-];
+/* ─── Stats ──────────────────────────────────────────────── */
 
 const stats = [
-  { number: "13", label: "Landmark papers" },
-  { number: "20", label: "Years of research" },
+  { number: "42", label: "Landmark papers" },
+  { number: "12", label: "Categories" },
+  { number: "20+", label: "Years of research" },
   { number: "2026", label: "First human trial" },
 ];
 
@@ -139,15 +20,32 @@ function OrganismBadge({ type }: { type: string }) {
   const styles: Record<string, string> = {
     Mouse:
       "bg-[var(--terracotta)]/15 text-[var(--terracotta)] border border-[var(--terracotta)]/20",
+    "Mouse (progeria)":
+      "bg-[var(--terracotta)]/15 text-[var(--terracotta)] border border-[var(--terracotta)]/20",
+    "Mouse (progeria & WT)":
+      "bg-[var(--terracotta)]/15 text-[var(--terracotta)] border border-[var(--terracotta)]/20",
+    "Mouse (eye)":
+      "bg-[var(--terracotta)]/15 text-[var(--terracotta)] border border-[var(--terracotta)]/20",
+    "Mouse (brain)":
+      "bg-[var(--terracotta)]/15 text-[var(--terracotta)] border border-[var(--terracotta)]/20",
+    "Mouse (heart)":
+      "bg-[var(--terracotta)]/15 text-[var(--terracotta)] border border-[var(--terracotta)]/20",
+    "Mouse (Alzheimer's)":
+      "bg-[var(--terracotta)]/15 text-[var(--terracotta)] border border-[var(--terracotta)]/20",
     "Human cells":
       "bg-[var(--charcoal)]/10 text-[var(--charcoal)] border border-[var(--charcoal)]/15",
-    "Human cells + Mouse":
+    "Human cells + C. elegans":
       "bg-[var(--charcoal)]/10 text-[var(--charcoal)] border border-[var(--charcoal)]/15",
     Human:
       "bg-[var(--terracotta)] text-white border border-[var(--terracotta)]",
-    "Non-human primates":
+    "Human + Mouse":
+      "bg-[var(--charcoal)]/10 text-[var(--charcoal)] border border-[var(--charcoal)]/15",
+    "Non-human primate":
       "bg-[var(--terracotta-dark)]/15 text-[var(--terracotta-dark)] border border-[var(--terracotta-dark)]/20",
+    Frog: "bg-[var(--muted)]/15 text-[var(--text-secondary)] border border-[var(--muted)]/20",
     Review:
+      "bg-[var(--muted)]/15 text-[var(--text-secondary)] border border-[var(--muted)]/20",
+    Theoretical:
       "bg-[var(--muted)]/15 text-[var(--text-secondary)] border border-[var(--muted)]/20",
   };
 
@@ -158,6 +56,17 @@ function OrganismBadge({ type }: { type: string }) {
       }`}
     >
       {type}
+    </span>
+  );
+}
+
+/* ─── Category Badge ─────────────────────────────────────── */
+
+function CategoryBadge({ category }: { category: string }) {
+  const label = categories.find((c) => c.key === category)?.label ?? category;
+  return (
+    <span className="inline-block rounded-full border border-[var(--terracotta)]/15 bg-[var(--terracotta)]/8 px-3 py-1 font-[family-name:var(--font-jetbrains)] text-[10px] font-medium leading-none text-[var(--terracotta-dark)]">
+      {label}
     </span>
   );
 }
@@ -220,6 +129,28 @@ function TimelineLine() {
 /* ─── Component ───────────────────────────────────────── */
 
 export default function EvidenceContent() {
+  const [activeCategory, setActiveCategory] = useState<CategoryKey>("all");
+
+  /* Filter papers */
+  const filtered =
+    activeCategory === "all"
+      ? papers
+      : papers.filter((p) => p.category === activeCategory);
+
+  /* Sort by year */
+  const sorted = [...filtered].sort(
+    (a, b) => parseInt(a.year) - parseInt(b.year),
+  );
+
+  /* Group into eras */
+  const grouped = eras.map((era) => ({
+    ...era,
+    papers: sorted.filter((p) => {
+      const y = parseInt(p.year);
+      return y >= era.start && y <= era.end;
+    }),
+  }));
+
   return (
     <div>
       {/* ── Hero ──────────────────────────────────────────── */}
@@ -237,8 +168,8 @@ export default function EvidenceContent() {
               </em>
             </h1>
             <p className="mt-6 max-w-[55ch] text-lg leading-relaxed text-[var(--text-secondary)] md:text-xl">
-              From a single discovery in 2006 to the first human trial in&nbsp;2026.
-              Two decades of evidence, in plain&nbsp;English.
+              From a single discovery in 1962 to the first human trial
+              in&nbsp;2026. Seven decades of evidence, in plain&nbsp;English.
             </p>
           </ScrollReveal>
         </div>
@@ -247,11 +178,11 @@ export default function EvidenceContent() {
       {/* ── Key Stats ─────────────────────────────────────── */}
       <section className="bg-[var(--cream-dark)] px-6 py-16 md:px-10">
         <div className="mx-auto max-w-[1400px]">
-          <div className="grid grid-cols-1 gap-8 sm:grid-cols-3">
+          <div className="grid grid-cols-2 gap-8 sm:grid-cols-4">
             {stats.map((s, i) => (
               <ScrollReveal key={s.label} delay={i * 0.1} variant="scale-in">
                 <div className="text-center">
-                  <span className="block font-[family-name:var(--font-playfair)] text-5xl tracking-tight text-[var(--terracotta)] md:text-6xl">
+                  <span className="block font-[family-name:var(--font-playfair)] text-4xl tracking-tight text-[var(--terracotta)] md:text-6xl">
                     {s.number}
                   </span>
                   <span className="mt-2 block font-[family-name:var(--font-jetbrains)] text-xs tracking-widest text-[var(--muted)] uppercase">
@@ -264,96 +195,172 @@ export default function EvidenceContent() {
         </div>
       </section>
 
-      {/* ── Timeline ──────────────────────────────────────── */}
-      <section className="bg-[var(--cream)] px-6 py-20 md:px-10">
+      {/* ── Category Filters ─────────────────────────────── */}
+      <section className="bg-[var(--cream)] px-6 pt-16 pb-4 md:px-10">
         <div className="mx-auto max-w-[1400px]">
           <ScrollReveal>
-            <h2 className="mb-14 text-center font-[family-name:var(--font-playfair)] text-3xl tracking-tight md:text-4xl">
-              The Timeline
-            </h2>
-          </ScrollReveal>
-
-          <div className="relative">
-            {/* Center line that draws on scroll */}
-            <TimelineLine />
-
-            <div className="space-y-12 md:space-y-16">
-              {papers.map((p, i) => (
-                <ScrollReveal
-                  key={p.year + p.title}
-                  delay={i * 0.03}
-                  variant={i % 2 === 0 ? "fade-right" : "fade-left"}
-                >
-                  <div
-                    className={`relative pl-12 md:w-[46%] md:pl-0 ${
-                      i % 2 === 0
-                        ? "md:pr-14 md:text-right"
-                        : "md:ml-auto md:pl-14"
+            <div className="-mx-6 overflow-x-auto px-6 md:-mx-10 md:px-10">
+              <div className="flex gap-2 pb-4">
+                {categories.map((cat) => (
+                  <button
+                    key={cat.key}
+                    onClick={() => setActiveCategory(cat.key)}
+                    className={`shrink-0 rounded-full px-4 py-2 font-[family-name:var(--font-jetbrains)] text-xs font-medium tracking-wide transition-all duration-200 ${
+                      activeCategory === cat.key
+                        ? "bg-[var(--terracotta)] text-[var(--cream)] shadow-sm"
+                        : "bg-[var(--cream-dark)] text-[var(--muted)] hover:bg-[var(--terracotta)]/10 hover:text-[var(--terracotta)]"
                     }`}
                   >
-                    {/* Dot on the line */}
-                    <div
-                      className={`absolute top-2 left-2 h-3.5 w-3.5 rounded-full border-2 border-[var(--terracotta)] bg-[var(--cream)] transition-colors duration-300 md:left-auto ${
-                        i % 2 === 0
-                          ? "md:right-[-7px] md:left-auto"
-                          : "md:left-[-7px]"
-                      }`}
-                    />
-
-                    {/* Year */}
-                    <span className="font-[family-name:var(--font-playfair)] text-4xl font-bold leading-none text-[var(--terracotta)]">
-                      {p.year}
-                    </span>
-
-                    {/* Badge */}
-                    <div
-                      className={`mt-3 ${
-                        i % 2 === 0 ? "md:flex md:justify-end" : ""
-                      }`}
-                    >
-                      <OrganismBadge type={p.organism} />
-                    </div>
-
-                    {/* Paper title */}
-                    <h3 className="mt-3 font-[family-name:var(--font-playfair)] text-base italic leading-snug text-[var(--charcoal)] underline decoration-[var(--terracotta)]/30 underline-offset-2 hover:decoration-[var(--terracotta)] transition-colors duration-200 md:text-lg">
-                      {p.title}
-                    </h3>
-
-                    {/* Authors / journal */}
-                    <p className="mt-1.5 font-[family-name:var(--font-jetbrains)] text-xs text-[var(--muted)]">
-                      {p.authors} &middot; {p.journal}
-                    </p>
-
-                    {/* Summary */}
-                    <p className="mt-3 text-sm leading-relaxed text-[var(--text-secondary)]">
-                      {p.summary}
-                    </p>
-
-                    {/* Read paper link */}
-                    <a
-                      href={p.doi}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className={`group/link mt-3 inline-flex items-center gap-1.5 font-[family-name:var(--font-jetbrains)] text-xs text-[var(--terracotta)] transition-colors hover:text-[var(--terracotta-dark)] ${
-                        i % 2 === 0 ? "md:flex-row-reverse" : ""
-                      }`}
-                    >
-                      {i % 2 === 0 ? (
-                        <>
-                          Read paper{" "}
-                          <ArrowRight className="rotate-180 transition-transform duration-200 group-hover/link:-translate-x-0.5" />
-                        </>
-                      ) : (
-                        <>
-                          Read paper <ArrowRight className="transition-transform duration-200 group-hover/link:translate-x-0.5" />
-                        </>
-                      )}
-                    </a>
-                  </div>
-                </ScrollReveal>
-              ))}
+                    {cat.label}
+                    {activeCategory === cat.key && (
+                      <span className="ml-1.5 inline-block rounded-full bg-white/20 px-1.5 py-0.5 text-[9px]">
+                        {cat.key === "all"
+                          ? papers.length
+                          : papers.filter((p) => p.category === cat.key)
+                              .length}
+                      </span>
+                    )}
+                  </button>
+                ))}
+              </div>
             </div>
-          </div>
+          </ScrollReveal>
+        </div>
+      </section>
+
+      {/* ── Timeline ──────────────────────────────────────── */}
+      <section className="bg-[var(--cream)] px-6 pt-8 pb-20 md:px-10">
+        <div className="mx-auto max-w-[1400px]">
+          {grouped.map(
+            (era) =>
+              era.papers.length > 0 && (
+                <div key={era.key} className="mb-16 last:mb-0">
+                  {/* Era Header */}
+                  <ScrollReveal>
+                    <div className="mb-10 text-center">
+                      <h2 className="font-[family-name:var(--font-playfair)] text-3xl tracking-tight md:text-4xl">
+                        {era.label}
+                      </h2>
+                      <span className="mt-2 inline-block font-[family-name:var(--font-jetbrains)] text-xs tracking-widest text-[var(--muted)] uppercase">
+                        {era.range}
+                      </span>
+                    </div>
+                  </ScrollReveal>
+
+                  {/* Papers in this era */}
+                  <div className="relative">
+                    <TimelineLine />
+
+                    <div className="space-y-12 md:space-y-16">
+                      {era.papers.map((p, i) => (
+                        <ScrollReveal
+                          key={p.year + p.title}
+                          delay={i * 0.03}
+                          variant={
+                            i % 2 === 0 ? "fade-right" : "fade-left"
+                          }
+                        >
+                          <div
+                            className={`relative pl-12 md:w-[46%] md:pl-0 ${
+                              i % 2 === 0
+                                ? "md:pr-14 md:text-right"
+                                : "md:ml-auto md:pl-14"
+                            }`}
+                          >
+                            {/* Dot on the line */}
+                            <div
+                              className={`absolute top-2 left-2 h-3.5 w-3.5 rounded-full border-2 border-[var(--terracotta)] bg-[var(--cream)] transition-colors duration-300 md:left-auto ${
+                                i % 2 === 0
+                                  ? "md:right-[-7px] md:left-auto"
+                                  : "md:left-[-7px]"
+                              }`}
+                            />
+
+                            {/* Year */}
+                            <span className="font-[family-name:var(--font-playfair)] text-4xl font-bold leading-none text-[var(--terracotta)]">
+                              {p.year}
+                            </span>
+
+                            {/* Badges */}
+                            <div
+                              className={`mt-3 flex flex-wrap gap-1.5 ${
+                                i % 2 === 0 ? "md:justify-end" : ""
+                              }`}
+                            >
+                              <OrganismBadge type={p.organism} />
+                              <CategoryBadge category={p.category} />
+                            </div>
+
+                            {/* Paper title */}
+                            <h3 className="mt-3 font-[family-name:var(--font-playfair)] text-base italic leading-snug text-[var(--charcoal)] md:text-lg">
+                              {p.doi !== "#" ? (
+                                <a
+                                  href={p.doi}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="underline decoration-[var(--terracotta)]/30 underline-offset-2 transition-colors duration-200 hover:decoration-[var(--terracotta)]"
+                                >
+                                  {p.title}
+                                </a>
+                              ) : (
+                                <span className="underline decoration-[var(--terracotta)]/30 underline-offset-2">
+                                  {p.title}
+                                </span>
+                              )}
+                            </h3>
+
+                            {/* Authors / journal */}
+                            <p className="mt-1.5 font-[family-name:var(--font-jetbrains)] text-xs text-[var(--muted)]">
+                              {p.authors} &middot; {p.journal}
+                            </p>
+
+                            {/* Summary */}
+                            <p className="mt-3 text-sm leading-relaxed text-[var(--text-secondary)]">
+                              {p.summary}
+                            </p>
+
+                            {/* Read paper link */}
+                            {p.doi !== "#" && (
+                              <a
+                                href={p.doi}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className={`group/link mt-3 inline-flex items-center gap-1.5 font-[family-name:var(--font-jetbrains)] text-xs text-[var(--terracotta)] transition-colors hover:text-[var(--terracotta-dark)] ${
+                                  i % 2 === 0
+                                    ? "md:flex-row-reverse"
+                                    : ""
+                                }`}
+                              >
+                                {i % 2 === 0 ? (
+                                  <>
+                                    Read paper{" "}
+                                    <ArrowRight className="rotate-180 transition-transform duration-200 group-hover/link:-translate-x-0.5" />
+                                  </>
+                                ) : (
+                                  <>
+                                    Read paper{" "}
+                                    <ArrowRight className="transition-transform duration-200 group-hover/link:translate-x-0.5" />
+                                  </>
+                                )}
+                              </a>
+                            )}
+                          </div>
+                        </ScrollReveal>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              ),
+          )}
+
+          {/* Empty state when filter yields no results */}
+          {sorted.length === 0 && (
+            <div className="py-20 text-center">
+              <p className="font-[family-name:var(--font-jetbrains)] text-sm text-[var(--muted)]">
+                No papers in this category yet.
+              </p>
+            </div>
+          )}
         </div>
       </section>
 

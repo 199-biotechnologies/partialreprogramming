@@ -46,6 +46,7 @@ export function Navbar() {
     { href: "/", label: "The Science" },
     { href: "/landscape", label: "The Landscape" },
     { href: "/evidence", label: "The Evidence" },
+    { href: "/resources", label: "Resources" },
   ];
 
   const blurAmount = scrolled ? Math.min(12, 4 + scrollProgress * 8) : 0;
